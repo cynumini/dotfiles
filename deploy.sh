@@ -3,3 +3,4 @@
 mkdir ~/.config/nvim
 
 stow -t ~/ nvim
+stow -t ~/ hypr
