@@ -1,0 +1,97 @@
+@define-color normal0 #282828;
+@define-color normal1 #cc241d;
+@define-color normal2 #98971a;
+@define-color normal3 #d79921;
+@define-color normal4 #458588;
+@define-color normal5 #b16286;
+@define-color normal6 #689d6a;
+@define-color normal7 #a89984;
+@define-color bright0 #928374;
+@define-color bright1 #fb4934;
+@define-color bright2 #b8bb26;
+@define-color bright3 #fabd2f;
+@define-color bright4 #83a598;
+@define-color bright5 #d3869b;
+@define-color bright6 #8ec07c;
+@define-color bright7 #ebdbb2;
+
+@define-color active @normal5;
+@define-color check @normal3;
+@define-color fail @normal1;
+@define-color background @normal0;
+@define-color foreground @bright7;
+@define-color background-alpha rgba(40, 40, 40, 0.90);
+
+* {
+    font-family: Iosevka Nerd Font, Noto Sans CJK JP,  sans-serif;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    transition-duration: 0;
+}
+
+window#waybar {
+	background-color: @background-alpha;
+	color: @foreground;
+}
+
+button {
+    padding: 0 4px;
+}
+
+button:hover { 
+    background: inherit;
+}
+
+#workspaces button.active {
+    background-color: @active;
+}
+
+#workspaces button.urgent {
+    background-color: @fail;
+}
+
+#idle_inhibitor,
+#pulseaudio,
+#power-profiles-daemon,
+#cpu,
+#memory,
+#clock,
+#tray {
+    padding: 0 4px;
+    margin: 0 1px;
+    background: @foreground;
+    color: @background;
+}
+
+#idle_inhibitor {
+    background: @background;
+    color: @foreground;
+}
+
+#idle_inhibitor.activated {
+    background: @foreground;
+    color: @background;
+}
+
+#pulseaudio {
+    background: @normal3;
+}
+
+#power-profiles-daemon {
+    background: @normal4;
+}
+
+#cpu {
+    background: @normal5;
+}
+
+#memory {
+    background: @normal6;
+}
+
+#clock {
+    background: @normal7;
+}

@@ -1,0 +1,75 @@
+// -*- mode: jsonc -*-
+{
+	"position": "bottom",
+	"height": 24,
+	// "spacing": 2,
+	"modules-left": [
+		"hyprland/workspaces",
+		"hyprland/submap"
+	],
+	"modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "idle_inhibitor",
+        "pulseaudio",
+        "power-profiles-daemon",
+        "cpu",
+        "memory",
+        "clock",
+        "tray"
+    ],
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "can't sleep",
+            "deactivated": "can sleep"
+        }
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M:%S}",
+        "interval": 1,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode-mon-col"  : 3,
+            "on-scroll"     : 1,
+            "format": {
+                "months":   "<span color='#b16286'><b>{}</b></span>",
+                "days":     "<span color='#ebdbb2'>{}</span>",
+                "weeks":    "<span color='#ebdbb2'><b>W{}</b></span>",
+                "weekdays": "<span color='#d79921'><b>{}</b></span>",
+                "today":    "<span color='#b16286'><b>{}</b></span>"
+            }
+        },
+        "actions":  {
+            "on-click-right": "shift_reset",
+            "on-click": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "cpu": {
+        "format": "cpu: {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "ram: {}%"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "format-icons": {
+            "default": "default",
+            "performance": "perfomance",
+            "balanced": "balanced",
+            "power-saver": "power-saver"
+        }
+    },
+    "pulseaudio": {
+        "format": "volume: {volume}%",
+        "on-click": "pavucontrol",
+        "on-click-right": "headphones.sh"
+    }
+}
