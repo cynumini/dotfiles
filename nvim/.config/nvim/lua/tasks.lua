@@ -19,7 +19,7 @@ local note_done = function()
 
 	local update = false
 
-		-- It's task?
+	-- It's task?
 	if line:find("- [ ]", 1, true) then
 		line = line:gsub("- %[ %]", "- [x]")
 		update = true
@@ -47,10 +47,10 @@ local note_done = function()
 				end
 			elseif recurrence:sub(1, 2) == ".+" then
 				local value = tonumber(recurrence:sub(3, #recurrence - 1))
-				date= calc_date(current_date, value, unit)
+				date = calc_date(current_date, value, unit)
 			elseif recurrence:sub(1, 1) == "+" then
 				local value = tonumber(recurrence:sub(2, #recurrence - 1))
-				date= calc_date(date, value, unit)
+				date = calc_date(date, value, unit)
 			end
 			line = ""
 			while start > 1 do
