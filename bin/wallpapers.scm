@@ -1,6 +1,7 @@
 #!/bin/guile -s
 !#
 (use-modules (patchouli))
+(use-modules (vars))
 
 (define (sub . args)
   (append (list "(") args (list ")")))
@@ -15,8 +16,6 @@
 (define image-path (cadr args))
 
 (assert (file-exists? image-path))
-
-(define wallpaper-path (with-home "/pictures/wallpaper.png"))
 
 (assert (file-exists? (dirname wallpaper-path)))
 
