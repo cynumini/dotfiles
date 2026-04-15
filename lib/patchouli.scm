@@ -1,4 +1,4 @@
-(define-module (patchouli) #:export (assert flat))
+(define-module (patchouli) #:export (assert flat with-home))
 
 (define-syntax assert
   (syntax-rules ()
@@ -8,3 +8,5 @@
 
 (define (flat lst)
   (apply append (map (lambda (x) (if (list? x) x (list x))) lst)))
+
+(define (with-home path) (string-append (getenv "HOME") "/" path))

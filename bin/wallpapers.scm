@@ -16,7 +16,9 @@
 
 (assert (file-exists? image-path))
 
-(define wallpaper-path (string-append (getenv "HOME") "/pictures/wallpaper.png"))
+(define wallpaper-path (with-home "/pictures/wallpaper.png"))
+
+(assert (file-exists? (dirname wallpaper-path)))
 
 (assert (= 0 (magick (sub image-path ;; blurred image as background
                           "-resize" "1920x"
