@@ -23,11 +23,16 @@ cd dotfiles
 
 ## Contents
 
-- `lib/` - Scheme modules for my system
-- `bin/` - Scheme scripts
-  - `wallpaper.scm` - generates a 1920×1080 wallpaper from any image
-- `generators/` - Scheme scripts that generate configuration files
-  - `bash.scm` - generates `~/.bash_profile` and `~/.bashrc`
-  - `i3.scm` - generates `~/.config/i3/config`
-- `configs/` - configuration files that are symlinked (not generated)
-- `deploy.scm` - deploys all configurations to the system
+- `lib/` — Scheme modules for my system
+  - `patchouli.scm` — collection of useful functions
+  - `vars.scm` — collection of useful variables
+- `bin/` — Scheme scripts
+  - `wallpaper.scm` — generates a 1920×1080 wallpaper from any image
+  - `volume.scm` — volume control with bar indicator
+  - `loadavg` — load-average bar indicator
+- `generators/` — Scheme scripts that generate configuration files
+  - `bash.scm` — generates `~/.bash_profile` and `~/.bashrc`
+  - `i3.scm` — generates `~/.config/i3/config`
+  - `i3blocks.scm` — generates `~/.config/i3blocks/config`
+- `configs/` — configuration files that are symlinked (not generated)
+- `deploy.scm` — deploys all configurations to the system

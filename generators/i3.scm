@@ -42,6 +42,8 @@
                        ("$mod+Shift+s" "screenshot.sh temp")
                        ("$mod+z" "record-audio.sh")
                        ("$mod+Shift+z" "anki-screenshot.sh")
+                       ("$mod+minus" "volume.scm -")
+                       ("$mod+equal" "volume.scm +")
                        ;; exit i3 (logs you out of your X session)
                        ("$mod+x" ,(string-join '("i3-nagbar -t warning -m 'You pressed the exit shortcut. Do"
                                                  "you really want to exit i3? This will end your X session.'"
@@ -126,4 +128,4 @@
                 ;; Start i3bar to display a workspace bar (plus the
                 ;; system information i3status finds out, if
                 ;; available)
-                (bar "i3status"))))))
+                (bar "i3blocks"))))))

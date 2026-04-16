@@ -1,4 +1,13 @@
-(define-module (patchouli) #:export (assert flat with-home warn-edit))
+(define-module (patchouli) #:export (assert flat with-home warn-edit run))
+
+(use-modules (ice-9 popen)
+             (ice-9 format)
+             (ice-9 textual-ports))
+
+(define (run command) (begin
+                        (define pipe (open-pipe command OPEN_READ))
+                        (define output (get-string-all pipe))
+                        (close-pipe pipe) output))
 
 (define-syntax assert
   (syntax-rules ()
