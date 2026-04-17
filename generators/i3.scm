@@ -36,7 +36,7 @@
 (define bindsym-exec `(
                        ("$mod+q" "i3-sensible-terminal")
                        ("$mod+r" "rofi -show drun -show-icons")
-                       ("$mod+Shift+q" "rofi -show run")
+                       ("$mod+Shift+r" "rofi -show run")
                        ("$mod+Shift+equal" "cboomer")
                        ("Print" "screenshot.sh")
                        ("$mod+Shift+s" "screenshot.sh temp")
