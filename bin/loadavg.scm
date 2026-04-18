@@ -1,7 +1,8 @@
 #!/bin/guile -s
 !#
 (use-modules (ice-9 rdelim)
-             (patchouli))
+             (patchouli)
+             (vars))
 
 (define loadavg (string->number (car (string-split
                                       (call-with-input-file "/proc/loadavg"
@@ -10,6 +11,8 @@
 
 (define nproc (string->number (string-trim-both (run "nproc"))))
 
+(case (get-button)
+  ((3) (run (format #f "~a btop" terminal))))
+
 (if (<= loadavg nproc)
-    (begin (format #t "CPU: ~a~%" loadavg))
-    (begin (display #t "CPU: ~a~%" loadavg) (exit 33)))
+    (format #t "CPU: ~a~%" loadavg) (begin (display #t "CPU: ~a~%" loadavg) (exit 33)))

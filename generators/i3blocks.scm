@@ -22,9 +22,15 @@
   (lambda ()
     (format #t "# ~a~%" (warn-edit))
     (display (render `(
+                       ("vmem"
+                        (("command" "vmem.scm")
+                         ("interval" "30")))
+                       ("mem"
+                        (("command" "mem.scm")
+                         ("interval" "30")))
                        ("loadavg"
                         (("command" "loadavg.scm")
-                         ("interval" "10")))
+                         ("interval" "30")))
                        ("volume"
                         (("command" "volume.scm")
                          ("signal" "1")

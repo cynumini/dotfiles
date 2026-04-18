@@ -1,4 +1,4 @@
-(define-module (patchouli) #:export (assert flat with-home warn-edit run))
+(define-module (patchouli) #:export (assert flat with-home warn-edit run get-button))
 
 (use-modules (ice-9 popen)
              (ice-9 format)
@@ -22,3 +22,6 @@
 
 (define-syntax warn-edit
   (syntax-rules () ((_) (format #f "Don't edit this file; edit ~a instead!" (current-filename)))))
+
+(define (get-button)
+  (string->number (or (getenv "BLOCK_BUTTON") "")))
