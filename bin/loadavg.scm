@@ -15,4 +15,4 @@
   ((3) (run (format #f "~a btop" terminal))))
 
 (if (<= loadavg nproc)
-    (format #t "CPU: ~a~%" loadavg) (begin (display #t "CPU: ~a~%" loadavg) (exit 33)))
+    (format #t "CPU: ~a~%" loadavg) (begin (format #t "CPU: ~a~%" loadavg) (exit 33)))

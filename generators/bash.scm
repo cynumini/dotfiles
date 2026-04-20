@@ -32,8 +32,12 @@
                 ;; following line runs your .bashrc and is recommended
                 ;; by the bash info pages.
                 (if (test "-f" "~/.bashrc") ((source "~/.bashrc")))
+                (if (test "-f" "~/.private") ((source "~/.private")))
                 (export "GUILE_LOAD_PATH" "~/projects/dotfiles/lib")
                 (export "QT_QPA_PLATFORMTHEME" "qt6ct")
+		(export "XMODIFIERS" "\"@im=fcitx\"")
+		(export "GTK_IM_MODULE" "fcitx")
+		(export "QT_IM_MODULE" "fcitx")
                 (export "PATH" ,(string-join (map (lambda(x) (expand x))
                                                               '("$PATH"
                                                                 "~/scripts"

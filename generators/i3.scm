@@ -28,7 +28,7 @@
   (apply string-append (map (lambda (x) (string-append (make-string level #\tab) (render-node x level))) ast)))
 
 (define autostart
-  `("dex --autostart --environment"
+  `("dex --autostart --environment i3"
    ,(format #f "xss-lock --transfer-sleep-lock -- i3lock -i ~a --nofork" wallpaper-path)
    "nm-applet"
    "~/.fehbg"))
@@ -44,8 +44,9 @@
                        ("$mod+Shift+z" "anki-screenshot.sh")
                        ("$mod+minus" "volume.scm -")
                        ("$mod+equal" "volume.scm +")
+                       ("$mod+p" "mpris.scm play-pause")
                        ;; exit i3 (logs you out of your X session)
-                       ("$mod+x" ,(string-join '("i3-nagbar -t warning -m 'You pressed the exit shortcut. Do"
+                       ("$mod+m" ,(string-join '("i3-nagbar -t warning -m 'You pressed the exit shortcut. Do"
                                                  "you really want to exit i3? This will end your X session.'"
                                                  "-B 'Yes, exit i3' 'i3-msg exit'")) " ")))
 
@@ -80,10 +81,10 @@
                   ;; focus the child container
                   ("$mod+Shift+a" "focus child")
                   ;; reload the configuration file
-                  ("$mod+p" "reload")
+                  ("$mod+o" "reload")
                   ;; restart i3 inplace (preserves your
                   ;; layout/session, can be used to upgrade i3)
-                  ("$mod+Shift+p" "restart")
+                  ("$mod+Shift+o" "restart")
                   ;; toggle bar
                   ("$mod+b" "bar mode toggle")))
 

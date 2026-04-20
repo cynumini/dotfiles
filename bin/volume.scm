@@ -18,6 +18,11 @@
 (define (get-volume)
   (volume-from-string (string-trim-both (cadr (string-split (run "wpctl get-volume @DEFAULT_SINK@") #\space)))))
 
+(define (icon value)
+  (cond ((< value 34) "🔈")
+        ((< value 67) "🔉")
+        ((<= value 100) "🔊")))
+
 (if (= 2 (length (command-line)))
     (let ((arg (cadr (command-line))))
       (case (string->symbol arg)
@@ -27,4 +32,5 @@
       (case (get-button)
         ((4) (set-volume 5))
         ((5) (set-volume -5)))
-      (format #t "VOL: ~d%~%" (get-volume))))
+      (let ((value (get-volume)))
+        (format #t "~a: ~d%~%" (icon value) value))))

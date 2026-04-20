@@ -1,7 +1,7 @@
 #!/bin/guile -s
 !#
-(use-modules (patchouli))
-(use-modules (vars))
+(use-modules (patchouli)
+             (vars))
 
 (define (sub . args)
   (append (list "(") args (list ")")))
@@ -11,9 +11,7 @@
 
 (define args (command-line))
 
-(assert (= (length args) 2))
-
-(define image-path (cadr args))
+(define image-path (if (= (length args) 2) (cadr args) (run "xclip -o -sel clip")))
 
 (assert (file-exists? image-path))
 

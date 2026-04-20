@@ -22,6 +22,17 @@
   (lambda ()
     (format #t "# ~a~%" (warn-edit))
     (display (render `(
+                       ("mpris"
+                        (("command" "mpris.scm")
+                         ("signal" "2")
+                         ("interval" "10")))
+                       ("sleep"
+                        (("command" "sleep.scm")
+                         ("interval" "60")
+                         ("signal" "3")))
+                       ("disk"
+                        (("command" "disk.scm")
+                         ("interval" "30")))
                        ("vmem"
                         (("command" "vmem.scm")
                          ("interval" "30")))
