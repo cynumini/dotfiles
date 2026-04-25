@@ -28,10 +28,13 @@
   (apply string-append (map (lambda (x) (string-append (make-string level #\tab) (render-node x level))) ast)))
 
 (define autostart
-  `("dex --autostart --environment i3"
-   ,(format #f "xss-lock --transfer-sleep-lock -- i3lock -i ~a --nofork" wallpaper-path)
-   "nm-applet"
-   "~/.fehbg"))
+  `("gentoo-pipewire-launcher"
+    "dex --autostart --environment i3"
+    ,(format #f "xss-lock --transfer-sleep-lock -- i3lock -i ~a --nofork" wallpaper-path)
+    "mpd"
+    ,(format #f "xwallpaper --center ~a" wallpaper-path)
+    "playerctld"
+    "mpd-mpris"))
 
 (define bindsym-exec `(
                        ("$mod+q" "i3-sensible-terminal")
@@ -45,6 +48,11 @@
                        ("$mod+minus" "volume.scm -")
                        ("$mod+equal" "volume.scm +")
                        ("$mod+p" "mpris.scm play-pause")
+                       ("XF86AudioPlay" "mpris.scm play-pause")
+                       ("XF86AudioPause" "mpris.scm play-pause")
+                       ("XF86AudioNext" "mpris.scm next")
+                       ("XF86AudioPrev" "mpris.scm previous")
+                       ("$mod+y" "tts.py")
                        ;; exit i3 (logs you out of your X session)
                        ("$mod+m" ,(string-join '("i3-nagbar -t warning -m 'You pressed the exit shortcut. Do"
                                                  "you really want to exit i3? This will end your X session.'"

@@ -33,7 +33,7 @@
 (keymap-global-set "C-c d" 'insert-date)
 
 (require 'mozc)
-(set-language-environment "Japanese")
+;; (set-language-environment "Japanese")
 (setq default-input-method "japanese-mozc")
 
 (add-hook 'c-mode-hook

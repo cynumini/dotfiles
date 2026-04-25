@@ -27,4 +27,4 @@
                      "-composite"
                      wallpaper-path)))
 
-(assert (= 0 (system* "feh" "--bg-fill" wallpaper-path)))
+(assert (= 0 (system* "xwallpaper" "--center" wallpaper-path)))
