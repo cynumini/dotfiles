@@ -58,4 +58,6 @@ pub fn main(init: std.process.Init) !void {
     try dotfiles.symlink(allocator, "bash/.bash_profile", ".bash_profile");
     try dotfiles.symlink(allocator, "bash/.bashrc", ".bashrc");
     try dotfiles.symlink(allocator, "x11/.xinitrc", ".xinitrc");
+    try dotfiles.symlink(allocator, "clang/.clang-format", ".clang-format");
+    try dotfiles.symlink(allocator, "emacs/.emacs", ".emacs");
 }

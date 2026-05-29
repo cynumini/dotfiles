@@ -15,6 +15,8 @@ deploy this configuration, you need Zig 0.16.
 - picom
 - bash
 - x11
+- emacs
+- clang
 
 # Scripts
 
