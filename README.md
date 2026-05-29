@@ -11,6 +11,8 @@ deploy this configuration, you need Zig 0.16.
 - fcitx5
 - git
 - gtk
+- qt6ct
+- picom
 
 # Scripts
 

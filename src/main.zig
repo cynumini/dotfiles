@@ -51,4 +51,6 @@ pub fn main(init: std.process.Init) !void {
     try dotfiles.symlink(allocator, "fcitx5/config", ".config/fcitx5/config");
     try dotfiles.symlink(allocator, "git/config", ".config/git/config");
     try dotfiles.symlink(allocator, "gtk/settings.ini", ".config/gtk-3.0/settings.ini");
+    try dotfiles.symlink(allocator, "qt6ct/qt6ct.conf", ".config/qt6ct/qt6ct.conf");
+    try dotfiles.symlink(allocator, "picom/picom.conf", ".config/picom.conf");
 }
