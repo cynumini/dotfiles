@@ -22,7 +22,9 @@ const Dotfiles = struct {
     }
 
     pub fn symlink(self: Dotfiles, allocator: std.mem.Allocator, target_path: []const u8, link_path: []const u8) !void {
-        try self.home.createDirPath(self.io, std.fs.path.dirname(link_path).?);
+        if (std.fs.path.dirname(link_path)) |dirname| {
+            try self.home.createDirPath(self.io, dirname);
+        }
         self.home.symLink(
             self.io,
             try std.fs.path.join(
@@ -53,4 +55,6 @@ pub fn main(init: std.process.Init) !void {
     try dotfiles.symlink(allocator, "gtk/settings.ini", ".config/gtk-3.0/settings.ini");
     try dotfiles.symlink(allocator, "qt6ct/qt6ct.conf", ".config/qt6ct/qt6ct.conf");
     try dotfiles.symlink(allocator, "picom/picom.conf", ".config/picom.conf");
+    try dotfiles.symlink(allocator, "bash/.bash_profile", ".bash_profile");
+    try dotfiles.symlink(allocator, "bash/.bashrc", ".bashrc");
 }

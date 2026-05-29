@@ -13,6 +13,7 @@ deploy this configuration, you need Zig 0.16.
 - gtk
 - qt6ct
 - picom
+- bash
 
 # Scripts
 
