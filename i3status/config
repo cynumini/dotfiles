@@ -1,0 +1,44 @@
+general {
+        colors = true
+        interval = 1
+}
+
+order += "volume master"
+order += "disk /"
+order += "disk /mnt"
+order += "load"
+order += "memory"
+order += "time"
+
+volume master {
+        format = "VOL: %volume"
+        format_muted = "MUT: %volume"
+        device = "default"
+}
+
+disk "/" {
+        format = "DSK: %avail"
+        low_threshold = "100"
+        threshold_type = "gbytes_avail"
+}
+
+disk "/mnt" {
+        format = "MNT: %avail"
+        low_threshold = "1024"
+        threshold_type = "mbytes_avail"
+}
+
+load {
+        format = "AVG: %1min"
+        max_threshold = "12.0"
+}
+
+memory {
+        format = "MEM: %used"
+        threshold_degraded = "4G"
+        threshold_critical = "1G"
+}
+
+time {
+        format = "DT: %Y-%m-%d %H:%M:%S"
+}

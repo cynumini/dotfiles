@@ -46,7 +46,9 @@ pub fn main(init: std.process.Init) !void {
         init.environ_map.get("HOME").?,
     );
     try dotfiles.symlink(allocator, "i3/config", ".config/i3/config");
+    try dotfiles.symlink(allocator, "i3status/config", ".config/i3status/config");
     try dotfiles.symlink(allocator, "btop/btop.conf", ".config/btop/btop.conf");
     try dotfiles.symlink(allocator, "fcitx5/config", ".config/fcitx5/config");
     try dotfiles.symlink(allocator, "git/config", ".config/git/config");
+    try dotfiles.symlink(allocator, "gtk/settings.ini", ".config/gtk-3.0/settings.ini");
 }

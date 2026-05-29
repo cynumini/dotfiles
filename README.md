@@ -6,9 +6,11 @@ deploy this configuration, you need Zig 0.16.
 # Configurations
 
 - i3
+- i3status
 - btop
 - fcitx5
 - git
+- gtk
 
 # Scripts
 
