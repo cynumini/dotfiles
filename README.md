@@ -14,6 +14,7 @@ deploy this configuration, you need Zig 0.16.
 - qt6ct
 - picom
 - bash
+- x11
 
 # Scripts
 

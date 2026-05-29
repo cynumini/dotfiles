@@ -57,4 +57,5 @@ pub fn main(init: std.process.Init) !void {
     try dotfiles.symlink(allocator, "picom/picom.conf", ".config/picom.conf");
     try dotfiles.symlink(allocator, "bash/.bash_profile", ".bash_profile");
     try dotfiles.symlink(allocator, "bash/.bashrc", ".bashrc");
+    try dotfiles.symlink(allocator, "x11/.xinitrc", ".xinitrc");
 }
