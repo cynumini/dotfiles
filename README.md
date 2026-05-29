@@ -8,6 +8,7 @@ deploy this configuration, you need Zig 0.16.
 - i3
 - btop
 - fcitx5
+- git
 
 # Scripts
 
