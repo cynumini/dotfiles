@@ -5,23 +5,28 @@ deploy this configuration, you need Zig 0.16.
 
 # Configurations
 
-- i3
-- i3status
+- bash
 - btop
+- clang
+- emacs
 - fcitx5
 - git
 - gtk
-- qt6ct
+- i3
+- i3status
 - picom
-- bash
+- qt6ct
 - x11
-- emacs
-- clang
 
 # Scripts
+
+- deploy - create symlinks for configs.
+- wallpaper - use the path in the clipboard to create a wallpaper from
+  any image and set it. Uses ImageMagick and xwallpaper.
 
 # Deployment
 
 ```sh
-zig build run
+zig build deploy
+zig build -Dscripts=true -Doptimize=ReleaseFast -p ~/.local/
 ```
