@@ -17,6 +17,7 @@ deploy this configuration, you need Zig 0.16.
 - picom
 - qt6ct
 - x11
+- fonts
 
 # Scripts
 
@@ -30,3 +31,6 @@ deploy this configuration, you need Zig 0.16.
 zig build deploy
 zig build -Dscripts=true -Doptimize=ReleaseFast -p ~/.local/
 ```
+
+# Refereces
+- ./fonts/99-japanese-fonts.conf from https://github.com/tatsumoto-ren/dotfiles

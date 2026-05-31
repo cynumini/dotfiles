@@ -17,7 +17,7 @@ pub fn script(
     });
     b.installArtifact(exe);
     const run_exe = b.addRunArtifact(exe);
-    const run_step = b.step(name, "Run the " ++ name);
+    const run_step = b.step(name, "Run " ++ name);
     run_step.dependOn(&run_exe.step);
 }
 
