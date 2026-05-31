@@ -54,7 +54,7 @@ pub fn main(init: std.process.Init) !void {
     try dotfiles.symlink(allocator, "clang/.clang-format", ".clang-format");
     try dotfiles.symlink(allocator, "emacs/.emacs", ".emacs");
     try dotfiles.symlink(allocator, "fcitx5/config", ".config/fcitx5/config");
-    try dotfiles.symlink(allocator, "fotns/99-japanese-fonts.conf", ".config/fontconfig/conf.d/99-japanese-fonts.conf");
+    try dotfiles.symlink(allocator, "fonts/99-japanese-fonts.conf", ".config/fontconfig/conf.d/99-japanese-fonts.conf");
     try dotfiles.symlink(allocator, "git/config", ".config/git/config");
     try dotfiles.symlink(allocator, "gtk/settings.ini", ".config/gtk-3.0/settings.ini");
     try dotfiles.symlink(allocator, "i3/config", ".config/i3/config");
