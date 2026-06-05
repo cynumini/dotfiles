@@ -5,6 +5,7 @@ deploy this configuration, you need Zig 0.16.
 
 # Configurations
 
+- alacritty
 - bash
 - btop
 - clang

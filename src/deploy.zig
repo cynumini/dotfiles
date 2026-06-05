@@ -48,6 +48,7 @@ pub fn main(init: std.process.Init) !void {
         try std.process.currentPathAlloc(init.io, allocator),
         init.environ_map.get("HOME").?,
     );
+    try dotfiles.symlink(allocator, "alacritty/alacritty.toml", ".config/alacritty.toml");
     try dotfiles.symlink(allocator, "bash/.bash_profile", ".bash_profile");
     try dotfiles.symlink(allocator, "bash/.bashrc", ".bashrc");
     try dotfiles.symlink(allocator, "btop/btop.conf", ".config/btop/btop.conf");
