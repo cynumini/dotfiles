@@ -7,6 +7,7 @@
 (use-package doom-themes :ensure t)
 (use-package magit :ensure t)
 (use-package company :ensure t)
+(use-package eglot :ensure t)
 
 (require 'mozc)
 
@@ -52,6 +53,7 @@
    '("f1e8339b04aef8f145dd4782d03499d9d716fdc0361319411ac2efc603249326"
      default))
  '(default-frame-alist '((alpha-background . 90)))
+ '(delete-selection-mode t)
  '(display-line-numbers-type 'relative)
  '(global-company-mode t)
  '(global-display-line-numbers-mode t)
@@ -60,7 +62,7 @@
  '(menu-bar-mode nil)
  '(org-agenda-files '("~/Documents/org/main.org"))
  '(org-log-repeat nil)
- '(package-selected-packages nil)
+ '(package-selected-packages '(company doom-themes eglot goto-chg magit zig-mode))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(whitespace-style
@@ -72,3 +74,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Iosevka" :height 127)))))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)

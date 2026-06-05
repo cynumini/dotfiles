@@ -14,7 +14,7 @@ bindsym $mod+minus exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 5%-
 floating_modifier $mod
 tiling_drag       modifier titlebar
 
-bindsym $mod+q            exec st
+bindsym $mod+q            exec alacritty
 bindsym $mod+e            exec pcmanfm-qt
 bindsym $mod+Shift+equal  exec cboomer
 
