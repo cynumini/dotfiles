@@ -4,6 +4,7 @@
 (package-initialize)
 
 (use-package zig-mode :ensure t)
+(use-package lua-mode :ensure t)
 (use-package doom-themes :ensure t)
 (use-package magit :ensure t)
 (use-package company :ensure t)
@@ -15,12 +16,20 @@
   (add-to-list 'eglot-server-programs
                `(python-mode . ,(eglot-alternatives
                                  '(("basedpyright-langserver" "--stdio")
-                                   ("ruff" "server"))))))
+                                   ("ruff" "server")))))
+  (add-to-list 'eglot-server-programs
+               `(lua-mode . ,(eglot-alternatives
+                                 '(("lua-language-server"))))))
 
 (keymap-global-set "C-c d"
                    (lambda ()
                      (interactive)
                      (insert (format-time-string "%Y-%m-%d"))))
+
+(keymap-global-set "C-c o"
+                   (lambda ()
+                     (interactive)
+                     (dired "~/Documents/Org")))
 
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 
@@ -39,6 +48,10 @@
             (define-key eglot-mode-map (kbd "C-c k") 'eldoc)))
 
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
+
+(set-fontset-font "fontset-default" 'han "Noto Sans CJK JP")
+(set-fontset-font "fontset-default" 'kana "Noto Sans CJK JP")
+(set-fontset-font "fontset-default" 'cjk-misc "Noto Sans CJK JP")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -60,9 +73,10 @@
  '(global-whitespace-mode t)
  '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
- '(org-agenda-files '("~/Documents/org/main.org"))
+ '(org-agenda-files '("~/Documents/Org/Life.org"))
  '(org-log-repeat nil)
- '(package-selected-packages '(company doom-themes eglot goto-chg magit zig-mode))
+ '(package-selected-packages
+   '(company doom-themes eglot goto-chg lua-mode magit zig-mode))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(whitespace-style

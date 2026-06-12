@@ -17,6 +17,7 @@ tiling_drag       modifier titlebar
 bindsym $mod+q            exec alacritty
 bindsym $mod+e            exec pcmanfm-qt
 bindsym $mod+Shift+equal  exec cboomer
+bindsym $mod+y            exec tts.py
 
 bindsym $mod+Shift+s      exec maim -s | xclip -selection clipboard -t image/png
 bindsym Print             exec maim    | xclip -selection clipboard -t image/png
@@ -57,6 +58,9 @@ bindsym $mod+v       focus mode_toggle
 
 bindsym $mod+a       focus parent
 bindsym $mod+Shift+a focus child
+
+# make default layout=tabbed
+workspace_layout tabbed
 
 set $ws1 "1"
 set $ws2 "2"
@@ -111,3 +115,15 @@ bindsym $mod+g mode "resize"
 bar {
         status_command i3status
 }
+
+# enable icons for all window
+for_window [all] title_window_icon on
+
+# i want the options window to stop floating
+for_window [class="Anki" title="Options"] floating disable
+
+# anki's browse window probably has a different title when i open it, so a normal
+# assign command doesn't work
+for_window [class="Anki" title="Browse"] move to workspace 2
+assign [class="librewolf"] 3
+for_window [class="Anki" title="User 1 - Anki"] move to workspace 4

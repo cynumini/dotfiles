@@ -1,36 +1,32 @@
 # Dotfiles
 
-My personal dotfiles, including configuration files and scripts. To
-deploy this configuration, you need Zig 0.16.
+My personal dotfiles, including configuration files and scripts.
 
 # Configurations
 
-- alacritty
-- bash
+- bash (.bashrc, .bash_profile)
 - btop
 - clang
 - emacs
 - fcitx5
+- fonts
 - git
 - gtk
 - i3
 - i3status
+- mpv (input.conf)
 - picom
 - qt6ct
 - x11
-- fonts
 
 # Scripts
 
-- deploy - create symlinks for configs.
-- wallpaper - use the path in the clipboard to create a wallpaper from
-  any image and set it. Uses ImageMagick and xwallpaper.
+- deploy.bash - create symlinks for configs.
 
 # Deployment
 
 ```sh
-zig build deploy
-zig build -Dscripts=true -Doptimize=ReleaseFast -p ~/.local/
+./deploy.bash
 ```
 
 # Refereces
