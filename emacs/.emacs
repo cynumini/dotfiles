@@ -9,6 +9,8 @@
 (use-package magit :ensure t)
 (use-package company :ensure t)
 (use-package eglot :ensure t)
+(use-package glsl-mode :ensure t)
+(use-package json-mode :ensure t)
 
 (require 'mozc)
 
@@ -29,7 +31,7 @@
 (keymap-global-set "C-c o"
                    (lambda ()
                      (interactive)
-                     (dired "~/Documents/Org")))
+                     (dired "~/documents/org")))
 
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 
@@ -73,10 +75,11 @@
  '(global-whitespace-mode t)
  '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
- '(org-agenda-files '("~/Documents/Org/Life.org"))
+ '(org-agenda-files '("~/documents/org/life.org"))
  '(org-log-repeat nil)
  '(package-selected-packages
-   '(company doom-themes eglot goto-chg lua-mode magit zig-mode))
+   '(company doom-themes eglot glsl-mode goto-chg json-mode lua-mode
+             magit zig-mode))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(whitespace-style

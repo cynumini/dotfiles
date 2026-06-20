@@ -17,11 +17,14 @@ My personal dotfiles, including configuration files and scripts.
 - mpv (input.conf)
 - picom
 - qt6ct
+- scripts - a collection of my scripts
 - x11
 
 # Scripts
 
-- deploy.bash - create symlinks for configs.
+- deploy.sh - create symlinks for configs.
+- wallpaper.sh - generate wallpaper from image
+- anki-screenshot.sh
 
 # Deployment
 

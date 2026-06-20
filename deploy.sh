@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 DOTFILES=$(realpath $(dirname $0))
 
@@ -33,3 +33,4 @@ symlink "picom/picom.conf" ".config/picom.conf"
 symlink "qt6ct/qt6ct.conf" ".config/qt6ct/qt6ct.conf"
 symlink "x11/.xinitrc" ".xinitrc"
 symlink2 ".config/mpv/input.conf"
+symlink2 "scripts"
