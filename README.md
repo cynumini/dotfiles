@@ -10,6 +10,7 @@ My personal dotfiles, including configuration files and scripts.
 - emacs
 - fcitx5
 - fonts
+- foot - terminal
 - git
 - gtk
 - i3

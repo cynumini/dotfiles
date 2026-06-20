@@ -82,6 +82,7 @@
              magit zig-mode))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
+ '(vc-follow-symlinks t)
  '(whitespace-style
    '(face trailing tabs spaces newline missing-newline-at-eof empty
           space-after-tab space-before-tab space-mark tab-mark)))
