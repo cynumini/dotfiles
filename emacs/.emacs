@@ -11,6 +11,7 @@
 (use-package eglot :ensure t)
 (use-package glsl-mode :ensure t)
 (use-package json-mode :ensure t)
+(use-package meson-mode :ensure t)
 
 (require 'mozc)
 
@@ -49,6 +50,17 @@
             (define-key eglot-mode-map (kbd "C-c e") 'eglot)
             (define-key eglot-mode-map (kbd "C-c k") 'eldoc)))
 
+(eglot--code-action eglot-code-action-fixall "source.fixAll")
+
+(add-hook 'zig-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook
+                      (lambda ()
+                        (call-interactively 'eglot-format)
+                        (call-interactively 'eglot-code-action-organize-imports)
+                        (call-interactively 'eglot-code-action-fixall))
+                      nil t)))
+
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
 (set-fontset-font "fontset-default" 'han "Noto Sans CJK JP")
@@ -75,11 +87,12 @@
  '(global-whitespace-mode t)
  '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
+ '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/life.org"))
  '(org-log-repeat nil)
  '(package-selected-packages
    '(company doom-themes eglot glsl-mode goto-chg json-mode lua-mode
-             magit zig-mode))
+             magit meson-mode zig-mode))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)

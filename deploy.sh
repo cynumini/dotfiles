@@ -18,7 +18,6 @@ symlink2 () {
     symlink-base "$DOTFILES/$1" "$OUT"
 }
 
-symlink "btop/btop.conf" ".config/btop/btop.conf"
 symlink "clang/.clang-format" ".clang-format"
 symlink "emacs/.emacs" ".emacs"
 symlink "fcitx5/config" ".config/fcitx5/config"
@@ -32,6 +31,8 @@ symlink "qt6ct/qt6ct.conf" ".config/qt6ct/qt6ct.conf"
 symlink "x11/.xinitrc" ".xinitrc"
 symlink2 ".bash_profile"
 symlink2 ".bashrc"
+symlink2 ".config/btop/btop.conf"
 symlink2 ".config/foot/foot.ini"
+symlink2 ".config/labwc/rc.xml"
 symlink2 ".config/mpv/input.conf"
 symlink2 "scripts"
