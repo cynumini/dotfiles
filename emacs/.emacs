@@ -12,6 +12,7 @@
 (use-package glsl-mode :ensure t)
 (use-package json-mode :ensure t)
 (use-package meson-mode :ensure t)
+(use-package markdown-mode :ensure t)
 
 (require 'mozc)
 
@@ -92,7 +93,7 @@
  '(org-log-repeat nil)
  '(package-selected-packages
    '(company doom-themes eglot glsl-mode goto-chg json-mode lua-mode
-             magit meson-mode zig-mode))
+             magit markdown-mode meson-mode zig-mode))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)

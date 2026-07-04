@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+export WINEPREFIX="$HOME/.proton-cachyos"
+export PROTONPATH="$HOME/opt/proton-cachyos-11.0-20260602-slr-x86_64_v3"
+export PROTON_DXVK_SAREK=1
+# export MANGOHUD=1
+umu-run "$1" 

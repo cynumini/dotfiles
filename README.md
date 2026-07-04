@@ -5,22 +5,22 @@ My personal dotfiles, including configuration files and scripts.
 # Configurations
 
 - bash (.bashrc, .bash_profile)
-- btop
-- clang
+- btop (btop.conf)
+- clang (.clang-format)
 - emacs
 - fcitx5
 - fonts
-- foot - terminal
+- foot (foot.ini)
 - git
-- gtk
+- gtk (gtk-3.0/settings.ini, gtk-4.0/settings.ini)
 - i3
 - i3status
+- labwc (rc.xml)
 - mpv (input.conf)
 - picom
 - qt6ct
 - scripts - a collection of my scripts
 - x11
-- labwc (rc.xml)
 
 # Scripts
 

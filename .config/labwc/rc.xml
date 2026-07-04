@@ -13,10 +13,15 @@
     </device>
   </libinput>
 
+  <focus><followMouse>yes</followMouse></focus>
+
   <windowSwitcher><osd style="thumbnail" /> </windowSwitcher>
 
   <keyboard>
     <default />
+    <keybind key="W-S-t">
+      <action name="Execute" command="tts.py" />
+    </keybind>
     <keybind key="W-t">
       <action name="Execute" command="tts-jp.py" />
     </keybind>
@@ -40,6 +45,9 @@
     </keybind>
     <keybind key="W-z">
       <action name="Execute" command="anki-screenshot.sh" />
+    </keybind>
+    <keybind key="W-x">
+      <action name="Execute" command="record-audio.sh" />
     </keybind>
     <keybind key="W-o">
       <action name="Reconfigure" />

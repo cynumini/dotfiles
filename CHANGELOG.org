@@ -1,0 +1,19 @@
+* Changelog
+
+** [0.1] - 2026-07-04
+*** clang
+- migrate .clang-format to symlink2
+*** gtk
+- migrate gtk-3.0/settings.ini to symlink2
+- add gtk-4.0/settings.ini
+*** labwc
+- add "focus follow mouse"
+- tts.py shortcut
+- record-audio.sh shortcut
+*** scripts
+- add proton-cachyos - easy way to use umu-run with proton-cachyos
+- add record-audio.sh - record audio using pipewire for anki
+*** emacs
+- add markdown-mode
+*** minor updates
+- btop
