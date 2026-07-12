@@ -2,8 +2,9 @@ if [[ -f ~/.bashrc ]] ; then
     . ~/.bashrc
 fi
 
-export PATH=$PATH:~/.local/bin
-export PATH=$PATH:~/scripts
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/scripts:$PATH
+export PATH=$HOME/opt/Odin:$PATH
 
 export GBM_BACKEND=nvidia-drm
 export __GLX_VENDOR_LIBRARY_NAME=nvidia

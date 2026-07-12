@@ -1,5 +1,21 @@
 * Changelog
 
+
+** [0.2] - 2026-07-13
+*** bash
+- add Odin path to PATH (.bash_profile)
+- add alias "emerge-update-9999" to update 9999 packages (.bashrc)
+- add alias "music" to quickly play music (.bashrc)
+*** labwc
+- add "screenshot.sh" shortcut
+*** emacs
+- add odin-mode and OLS support
+- allow tabs
+- migrate ".emacs" to symlink2
+*** scripts
+- add "screenshot.sh" script to take screenshots and save them
+*** kanshi
+- add ".config/kanshi/config"
 ** [0.1] - 2026-07-04
 *** clang
 - migrate .clang-format to symlink2

@@ -18,7 +18,6 @@ symlink2 () {
     symlink-base "$DOTFILES/$1" "$OUT"
 }
 
-symlink "emacs/.emacs" ".emacs"
 symlink "fcitx5/config" ".config/fcitx5/config"
 symlink "fonts/99-japanese-fonts.conf" ".config/fontconfig/conf.d/99-japanese-fonts.conf"
 symlink "git/config" ".config/git/config"
@@ -34,6 +33,8 @@ symlink2 ".config/btop/btop.conf"
 symlink2 ".config/foot/foot.ini"
 symlink2 ".config/gtk-3.0/settings.ini"
 symlink2 ".config/gtk-4.0/settings.ini"
+symlink2 ".config/kanshi/config"
 symlink2 ".config/labwc/rc.xml"
 symlink2 ".config/mpv/input.conf"
+symlink2 ".emacs"
 symlink2 "scripts"

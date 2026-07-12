@@ -13,6 +13,11 @@
 (use-package json-mode :ensure t)
 (use-package meson-mode :ensure t)
 (use-package markdown-mode :ensure t)
+(use-package odin-mode
+  :ensure t
+  :vc (:url "https://github.com/mattt-b/odin-mode.git"
+       :rev :newest)
+  :mode ("\\.odin\\'" . odin-mode))
 
 (require 'mozc)
 
@@ -68,6 +73,8 @@
 (set-fontset-font "fontset-default" 'kana "Noto Sans CJK JP")
 (set-fontset-font "fontset-default" 'cjk-misc "Noto Sans CJK JP")
 
+(add-hook 'odin-mode-hook #'eglot-ensure)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -86,15 +93,15 @@
  '(global-company-mode t)
  '(global-display-line-numbers-mode t)
  '(global-whitespace-mode t)
- '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/life.org"))
  '(org-log-repeat nil)
- '(package-selected-packages
-   '(company doom-themes eglot glsl-mode goto-chg json-mode lua-mode
-             magit markdown-mode meson-mode zig-mode))
+ '(package-selected-packages '(odin-mode))
+ '(package-vc-selected-packages
+   '((odin-mode :url "https://github.com/mattt-b/odin-mode.git")))
  '(scroll-bar-mode nil)
+ '(tab-width 4)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
  '(whitespace-style
