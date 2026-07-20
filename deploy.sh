@@ -18,7 +18,6 @@ symlink2 () {
     symlink-base "$DOTFILES/$1" "$OUT"
 }
 
-symlink "fcitx5/config" ".config/fcitx5/config"
 symlink "fonts/99-japanese-fonts.conf" ".config/fontconfig/conf.d/99-japanese-fonts.conf"
 symlink "git/config" ".config/git/config"
 symlink "i3/config" ".config/i3/config"
@@ -30,6 +29,8 @@ symlink2 ".bash_profile"
 symlink2 ".bashrc"
 symlink2 ".clang-format"
 symlink2 ".config/btop/btop.conf"
+symlink2 ".config/dunst/dunstrc "
+symlink2 ".config/fcitx5/config"
 symlink2 ".config/foot/foot.ini"
 symlink2 ".config/gtk-3.0/settings.ini"
 symlink2 ".config/gtk-4.0/settings.ini"

@@ -1,6 +1,14 @@
 * Changelog
-
-
+** [0.3] - 2026-07-20
+*** bash
+- remove Odin path from PATH (.bash_profile)
+*** dunst
+- add .config/dunst/dunstrc
+*** fcitx5
+- migrate "fcitx5/config" to symlink2
+*** scripts
+- add "notification-sound.sh" script to play notification sound (used
+  by dunst)
 ** [0.2] - 2026-07-13
 *** bash
 - add Odin path to PATH (.bash_profile)

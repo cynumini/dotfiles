@@ -7,8 +7,9 @@ My personal dotfiles, including configuration files and scripts.
 - bash (.bashrc, .bash_profile)
 - btop (btop.conf)
 - clang (.clang-format)
+- dunst (dunstrc)
 - emacs
-- fcitx5
+- fcitx5 (config)
 - fonts
 - foot (foot.ini)
 - git
@@ -24,10 +25,11 @@ My personal dotfiles, including configuration files and scripts.
 
 # Scripts
 
-- deploy.sh - create symlinks for configs
-- wallpaper.sh - generate wallpaper from image
 - anki-screenshot.sh
+- deploy.sh - create symlinks for configs
+- notification-sound.sh - play notification sound (used in dunst config)
 - tts-jp.py - tts script based VOICEVOX
+- wallpaper.sh - generate wallpaper from image
 
 # Deployment
 

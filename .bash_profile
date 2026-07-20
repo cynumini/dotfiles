@@ -4,7 +4,6 @@ fi
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/scripts:$PATH
-export PATH=$HOME/opt/Odin:$PATH
 
 export GBM_BACKEND=nvidia-drm
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
