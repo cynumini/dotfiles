@@ -93,6 +93,7 @@
  '(global-company-mode t)
  '(global-display-line-numbers-mode t)
  '(global-whitespace-mode t)
+ '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/life.org"))

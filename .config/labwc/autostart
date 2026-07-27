@@ -1,0 +1,14 @@
+WALLPAPER=$HOME/pictures/wallpaper.png
+
+kanshi &
+swaybg -i $WALLPAPER &
+waybar &
+
+dex -a &
+
+dunst &
+playerctld &
+
+swayidle -w \
+         timeout 600  "loginctl suspend" \
+         before-sleep "swaylock -f -i $WALLPAPER"

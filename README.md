@@ -8,15 +8,15 @@ My personal dotfiles, including configuration files and scripts.
 - btop (btop.conf)
 - clang (.clang-format)
 - dunst (dunstrc)
-- emacs
+- emacs (.emacs)
 - fcitx5 (config)
-- fonts
+- fonts (99-japanese-fonts.conf)
 - foot (foot.ini)
 - git
 - gtk (gtk-3.0/settings.ini, gtk-4.0/settings.ini)
 - i3
 - i3status
-- labwc (rc.xml)
+- labwc (rc.xml, autostart)
 - mpv (input.conf)
 - picom
 - qt6ct
@@ -30,6 +30,7 @@ My personal dotfiles, including configuration files and scripts.
 - notification-sound.sh - play notification sound (used in dunst config)
 - tts-jp.py - tts script based VOICEVOX
 - wallpaper.sh - generate wallpaper from image
+- proton-cachyos - run proton-cachyos using umu-run
 
 # Deployment
 

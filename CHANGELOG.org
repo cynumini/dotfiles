@@ -1,4 +1,18 @@
 * Changelog
+** [0.4] - 2026-07-27
+*** bash
+- rename "untargz" to "untar" (.bashrc)
+- "untar" now supports not only gz, but also xz (.bashrc)
+*** fonts
+- migrate "99-japanese-fonts.conf" to "symlink2"
+*** labwc
+- add "autostart" file
+*** emacs
+- disallow tabs
+*** dunst
+- fix "dunst" symlink bug
+*** scripts
+- update the Proton version in "proton-cachyos"
 ** [0.3] - 2026-07-20
 *** bash
 - remove Odin path from PATH (.bash_profile)

@@ -13,7 +13,7 @@ alias emerge-update-9999="sudo emerge --ask @live-rebuild"
 alias make-audiobook-from-epub="QuickPiperAudiobook --threads 12 --model en_US-hfc_female-medium.onnx --chapters"
 alias make-audiobook-from-txt="QuickPiperAudiobook --threads 12 --model en_US-hfc_female-medium.onnx"
 alias un7z="7z x"
-alias untargz="tar -xvzf"
+alias untar="tar -xvf"
 alias unzip_jp="unzip -O shift-jis"
 alias music="mpv $HOME/music --shuffle"
 
