@@ -82,6 +82,7 @@
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist '(("." . "~/.local/state/emacs")))
  '(c-basic-offset 4)
+ '(c-hanging-semi&comma-criteria nil)
  '(column-number-mode t)
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
@@ -96,7 +97,7 @@
  '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
  '(meson-indent-basic 4)
- '(org-agenda-files '("~/documents/org/life.org"))
+ '(org-agenda-files '("~/documents/org/routine.org"))
  '(org-log-repeat nil)
  '(package-selected-packages '(odin-mode))
  '(package-vc-selected-packages

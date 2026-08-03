@@ -4,6 +4,7 @@ My personal dotfiles, including configuration files and scripts.
 
 # Configurations
 
+- XDG user directories (user-dirs.dirs)
 - bash (.bashrc, .bash_profile)
 - btop (btop.conf)
 - clang (.clang-format)
@@ -12,7 +13,7 @@ My personal dotfiles, including configuration files and scripts.
 - fcitx5 (config)
 - fonts (99-japanese-fonts.conf)
 - foot (foot.ini)
-- git
+- git (config)
 - gtk (gtk-3.0/settings.ini, gtk-4.0/settings.ini)
 - i3
 - i3status

@@ -1,4 +1,14 @@
 * Changelog
+** [0.5] - 2026-08-03
+*** bash
+- add msvc to $PATH
+*** git
+- migrate "git/config" to "symlink2"
+*** XDG user directories
+- add user-dirs.dirs
+*** emacs
+- fix c-mode after emacs update
+- change the main agenda file in org-mode
 ** [0.4] - 2026-07-27
 *** bash
 - rename "untargz" to "untar" (.bashrc)
