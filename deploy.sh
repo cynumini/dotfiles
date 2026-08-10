@@ -18,7 +18,6 @@ symlink2 () {
     symlink-base "$DOTFILES/$1" "$OUT"
 }
 
-symlink "i3/config" ".config/i3/config"
 symlink "i3status/config" ".config/i3status/config"
 symlink "picom/picom.conf" ".config/picom.conf"
 symlink "qt6ct/qt6ct.conf" ".config/qt6ct/qt6ct.conf"
@@ -34,6 +33,7 @@ symlink2 ".config/foot/foot.ini"
 symlink2 ".config/git/config"
 symlink2 ".config/gtk-3.0/settings.ini"
 symlink2 ".config/gtk-4.0/settings.ini"
+symlink2 ".config/hypr/hyprland.lua"
 symlink2 ".config/kanshi/config"
 symlink2 ".config/labwc/autostart"
 symlink2 ".config/labwc/rc.xml"

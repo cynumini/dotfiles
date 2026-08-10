@@ -95,6 +95,8 @@
  '(global-display-line-numbers-mode t)
  '(global-whitespace-mode t)
  '(indent-tabs-mode nil)
+ '(lua-indent-level 4)
+ '(lua-indent-nested-block-content-align t)
  '(menu-bar-mode nil)
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/routine.org"))

@@ -15,7 +15,7 @@ My personal dotfiles, including configuration files and scripts.
 - foot (foot.ini)
 - git (config)
 - gtk (gtk-3.0/settings.ini, gtk-4.0/settings.ini)
-- i3
+- hyprland
 - i3status
 - labwc (rc.xml, autostart)
 - mpv (input.conf)
