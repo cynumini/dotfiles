@@ -13,11 +13,20 @@
 (use-package json-mode :ensure t)
 (use-package meson-mode :ensure t)
 (use-package markdown-mode :ensure t)
+(use-package cmake-mode :ensure t)
+(use-package fic-mode
+  :ensure t
+  :hook (prog-mode . fic-mode))
 (use-package odin-mode
   :ensure t
   :vc (:url "https://github.com/mattt-b/odin-mode.git"
        :rev :newest)
   :mode ("\\.odin\\'" . odin-mode))
+(use-package simpc-mode
+  :ensure t
+  :vc (:url "https://github.com/rexim/simpc-mode.git"
+       :rev :newest)
+  :mode ("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 (require 'mozc)
 
@@ -26,6 +35,9 @@
                `(python-mode . ,(eglot-alternatives
                                  '(("basedpyright-langserver" "--stdio")
                                    ("ruff" "server")))))
+  (add-to-list 'eglot-server-programs
+               `(simpc-mode . ,(eglot-alternatives
+                                 '(("clangd")))))
   (add-to-list 'eglot-server-programs
                `(lua-mode . ,(eglot-alternatives
                                  '(("lua-language-server"))))))
@@ -91,9 +103,14 @@
  '(default-frame-alist '((alpha-background . 90)))
  '(delete-selection-mode t)
  '(display-line-numbers-type 'relative)
+ '(eglot-ignored-server-capabilities
+   '(:inlayHintProvider))
  '(global-company-mode t)
  '(global-display-line-numbers-mode t)
  '(global-whitespace-mode t)
+ '(ido-enable-flex-matching t)
+ '(ido-everywhere t)
+ '(ido-mode 'both nil (ido))
  '(indent-tabs-mode nil)
  '(lua-indent-level 4)
  '(lua-indent-nested-block-content-align t)
@@ -101,9 +118,10 @@
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/routine.org"))
  '(org-log-repeat nil)
- '(package-selected-packages '(odin-mode))
+ '(package-selected-packages '(cmake-mode fic-mode odin-mode simpc-mode))
  '(package-vc-selected-packages
-   '((odin-mode :url "https://github.com/mattt-b/odin-mode.git")))
+   '((simpc-mode :url "https://github.com/rexim/simpc-mode.git")
+     (odin-mode :url "https://github.com/mattt-b/odin-mode.git")))
  '(scroll-bar-mode nil)
  '(tab-width 4)
  '(tool-bar-mode nil)

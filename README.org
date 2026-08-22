@@ -1,0 +1,46 @@
+* Dotfiles
+
+My personal dotfiles, including configuration files and scripts.
+
+* Configurations
+
+- XDG user directories (~user-dirs.dirs~)
+- bash (~.bashrc~, ~.bash_profile~)
+- btop (~btop.conf~)
+- clang (~.clang-format~)
+- dunst (~dunstrc~)
+- emacs (~.emacs~)
+- fcitx5 (~config~)
+- fonts (~99-japanese-fonts.conf~)
+- foot (~foot.ini~)
+- git (~config~)
+- gtk (~gtk-3.0/settings.ini~, ~gtk-4.0/settings.ini~)
+- hyprland (~hyprland.lua~, ~.luarc.json~)
+- labwc (~rc.xml~, ~autostart~)
+- mpv (~input.conf~)
+- picom
+- qt6ct
+- scripts - a collection of my scripts
+- x11
+
+* Scripts
+
+- ~anki-screenshot.sh~
+- ~deploy.sh~ - create symlinks for configs
+- ~notification-sound.sh~ - play notification sound (used in dunst
+  config)
+- ~tts-jp.py~ - tts script based VOICEVOX
+- ~wallpaper.sh~ - generate wallpaper from image
+- ~proton-cachyos~ - run proton-cachyos using umu-run
+- ~new-tts.py~ - WIP script that will combine my old ~tts.py~ and
+  ~tts-jp.py~
+
+* Deployment
+
+#+BEGIN_SRC sh
+./deploy.bash
+#+END_SRC
+
+* Refereces
+- .config/fontconfig/conf.d/99-japanese-fonts.conf from
+  [[https://github.com/tatsumoto-ren/dotfiles]]
