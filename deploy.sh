@@ -18,7 +18,6 @@ symlink2 () {
     symlink-base "$DOTFILES/$1" "$OUT"
 }
 
-symlink "picom/picom.conf" ".config/picom.conf"
 symlink "qt6ct/qt6ct.conf" ".config/qt6ct/qt6ct.conf"
 symlink "x11/.xinitrc" ".xinitrc"
 symlink2 ".bash_profile"
@@ -38,6 +37,7 @@ symlink2 ".config/kanshi/config"
 symlink2 ".config/labwc/autostart"
 symlink2 ".config/labwc/rc.xml"
 symlink2 ".config/mpv/input.conf"
+symlink2 ".config/mpv/mpv.conf"
 symlink2 ".config/user-dirs.dirs"
 symlink2 ".emacs"
 symlink2 "scripts"

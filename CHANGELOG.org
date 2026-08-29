@@ -1,4 +1,13 @@
 * Changelog
+** [0.8] - 2026-08-29
+** clang
+- change the column limit
+** mpv
+- add ~mpv.conf~
+** picom
+- remove ~picom.conf~
+** scripts
+- continue development of ~new-tts.py~
 ** [0.7] - 2026-08-22
 *** clang
 - change the column limit
@@ -21,17 +30,17 @@
 *** bash
 - move some env variables to hyprland config
 *** clang
-- change a column limit
+- change the column limit
 *** gtk
-- plasma changes gtk3 and gtk4 configs
+- plasma changed gtk3 and gtk4 configs
 *** hyprland
 - add my hyprland config
 *** emacs
 - add some lua settings
 *** i3
-- remove i3 config
+- remove the i3 config
 *** qt6ct
-- change style to Breeze
+- change style to the Breeze
 ** [0.5] - 2026-08-03
 *** bash
 - add msvc to $PATH
