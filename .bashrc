@@ -15,7 +15,6 @@ alias make-audiobook-from-txt="QuickPiperAudiobook --threads 12 --model en_US-hf
 alias un7z="7z x"
 alias untar="tar -xvf"
 alias unzip_jp="unzip -O shift-jis"
-alias music="mpv $HOME/music --shuffle"
 
 timer () {
     termdown $1

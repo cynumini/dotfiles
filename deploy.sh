@@ -18,7 +18,6 @@ symlink2 () {
     symlink-base "$DOTFILES/$1" "$OUT"
 }
 
-symlink "qt6ct/qt6ct.conf" ".config/qt6ct/qt6ct.conf"
 symlink "x11/.xinitrc" ".xinitrc"
 symlink2 ".bash_profile"
 symlink2 ".bashrc"

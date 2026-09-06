@@ -1,12 +1,29 @@
 * Changelog
+** [0.9] - 2026-09-06
+*** bash
+- add ~$HOME/go/bin~ to the ~PATH~
+- remove the music alias due to the migration to mpd
+*** clang
+- allow single-line loops
+*** gtk
+- plasma changed my gtk config again
+*** mpd
+- add the default mpd config with pipewire as the audio output
+*** emacs
+- add a shortcut to compile C++ programs with my build system
+- disable arrow keys in emacs to force myself to use the emacs way of cursor movement
+*** qt6ct
+- remove ~qt6ct.conf~
+*** scripts
+- keep working on ~new-tts.py~
 ** [0.8] - 2026-08-29
-** clang
+*** clang
 - change the column limit
-** mpv
+*** mpv
 - add ~mpv.conf~
-** picom
+*** picom
 - remove ~picom.conf~
-** scripts
+*** scripts
 - continue development of ~new-tts.py~
 ** [0.7] - 2026-08-22
 *** clang

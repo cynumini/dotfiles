@@ -24,6 +24,12 @@
   :mode ("\\.odin\\'" . odin-mode))
 (use-package simpc-mode
   :ensure t
+  :bind
+  (:map simpc-mode-map
+        ("<f5>" . (lambda ()
+                    (interactive)
+                    (when-let* ((dir (locate-dominating-file default-directory "b")))
+                      (let ((default-directory dir)) (compile "./b"))))))
   :vc (:url "https://github.com/rexim/simpc-mode.git"
        :rev :newest)
   :mode ("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
@@ -86,6 +92,19 @@
 (set-fontset-font "fontset-default" 'cjk-misc "Noto Sans CJK JP")
 
 (add-hook 'odin-mode-hook #'eglot-ensure)
+
+(global-unset-key (kbd "<left>"))
+(global-unset-key (kbd "<right>"))
+(global-unset-key (kbd "<up>"))
+(global-unset-key (kbd "<down>"))
+(global-unset-key (kbd "C-<left>"))
+(global-unset-key (kbd "C-<right>"))
+(global-unset-key (kbd "C-<up>"))
+(global-unset-key (kbd "C-<down>"))
+(global-unset-key (kbd "M-<left>"))
+(global-unset-key (kbd "M-<right>"))
+(global-unset-key (kbd "M-<up>"))
+(global-unset-key (kbd "M-<down>"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -17,8 +17,8 @@ My personal dotfiles, including configuration files and scripts.
 - gtk (~gtk-3.0/settings.ini~, ~gtk-4.0/settings.ini~)
 - hyprland (~hyprland.lua~, ~.luarc.json~)
 - labwc (~rc.xml~, ~autostart~)
+- mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~)
-- qt6ct
 - scripts - a collection of my scripts
 - x11
 
