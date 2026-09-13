@@ -1,4 +1,11 @@
 * Changelog
+** [0.10] - 2026-09-13
+*** autostart
+- add ~mpd.desktop~ and ~mpd-mpris.desktop~
+*** x11
+- remove ~.xinitrc~
+*** scripts
+- ~new-tts.py~ almost finished
 ** [0.9] - 2026-09-06
 *** bash
 - add ~$HOME/go/bin~ to the ~PATH~

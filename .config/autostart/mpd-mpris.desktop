@@ -1,0 +1,6 @@
+[Desktop Entry]
+Exec=/home/patchouli/go/bin/mpd-mpris
+Icon=application-x-executable
+Name=mpd-mpris
+Type=Application
+X-KDE-AutostartScript=true

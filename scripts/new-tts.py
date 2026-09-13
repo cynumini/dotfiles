@@ -1,9 +1,13 @@
 #!/usr/bin/python
-import os
+
+import queue
+import re
+import json
 import threading
 import signal
 import tempfile
 import time
+import urllib
 import pyperclip
 import subprocess
 import requests
@@ -15,27 +19,55 @@ import unicodedata
 
 CLI_MAX_TEXT = 512
 
-# running = True
+
+class Config:
+    piper_model: Path = (
+        Path.home() / ".local/share/piper-tts/en_US-hfc_female-medium.onnx"
+    )
 
 
-# class File(Protocol):
-#     name: str
+class File(Protocol):
+    name: str
 
-#     def close(self) -> None: ...
-
-
-# files: list[File] = []
+    def close(self) -> None: ...
 
 
-# def mpv():
-#     global running, files
-#     while running or files:
-#         if files:
-#             file = files.pop(0)
-#             filename = Path(file.name)
-#             _ = subprocess.run(["mpv", "-no-config", filename])
-#             file.close()
-#             filename.unlink()
+def play(filename: Path):
+    proc = subprocess.run(
+        [
+            "mpv",
+            "--no-config",
+            f"--script={Path.home()}/opt/mpv-mpris/mpris.so",
+            filename,
+        ]
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(f"Couldn't play {filename}")
+
+
+def play_thread(files: queue.Queue[File]):
+    while True:
+        try:
+            file = files.get()
+            try:
+                filename = Path(file.name)
+                try:
+                    play(filename)
+                finally:
+                    file.close()
+                    filename.unlink()
+            finally:
+                files.task_done()
+        except queue.ShutDown:
+            break
+
+
+def add_to_queue(files: queue.Queue[File], sentence: str, language: Language):
+    response = do_request(sentence, language)
+    file: File = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+    assert file.write(response.content) == len(response.content)
+    file.close()
+    files.put(file)
 
 
 class Mode(Enum):
@@ -45,34 +77,109 @@ class Mode(Enum):
     JAPANESE_ONLY = auto()  # VOICEVOX sever
 
 
+def start_piper_server():
+    return subprocess.Popen(
+        [
+            Path.home() / "opt/venv11/bin/python",
+            "-m",
+            "piper.http_server",
+            "-m",
+            Config.piper_model,
+        ]
+    )
+
+
+def start_voicevox_server():
+    return subprocess.Popen([Path.home() / "opt/vv-engine/run"])
+
+
+def piper_request(sentence: str):
+    for i in range(3):
+        try:
+            response = requests.post(
+                "http://127.0.0.1:5000/synthesize",
+                json={"text": sentence},
+            )
+            return response
+        except requests.exceptions.ConnectionError:
+            print("Wait!")
+            time.sleep(1)
+    raise RuntimeError("Piper connection error")
+
+
+def voicevox_request(sentence: str):
+    for i in range(3):
+        try:
+            speaker_index = 2
+            audio_query_response = requests.post(
+                "http://127.0.0.1:50021/audio_query?speaker="  # pyright: ignore[reportUnknownArgumentType]
+                + str(speaker_index)
+                + "&text="
+                + urllib.parse.quote(sentence, safe="")  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
+            )
+            assert audio_query_response.status_code == 200
+            audio_query = audio_query_response.json()  # pyright: ignore[reportAny]
+            audio_query["speedScale"] = 0.6
+            audio_query_json = json.dumps(audio_query)
+
+            response = requests.post(
+                "http://127.0.0.1:50021/synthesis?speaker=" + str(speaker_index),
+                data=audio_query_json,
+            )
+            return response
+        except requests.exceptions.ConnectionError:
+            print("Wait!")
+            time.sleep(1)
+    raise RuntimeError("Piper connection error")
+
+
+class Language(Enum):
+    ENGLISH = auto()
+    JAPANESE = auto()
+    NEUTRAL = auto()
+
+
+def do_request(sentence: str, language: Language):
+    assert language != Language.NEUTRAL
+    if language == Language.ENGLISH:
+        return piper_request(sentence)
+    return voicevox_request(sentence)
+
+
+def get_char_language(char: str) -> Language:
+    japanese_names = [
+        "CJK",
+        "HIRAGANA",
+        "KATAKANA",
+    ]
+
+    name = unicodedata.name(char, "UNKNOWN")
+
+    for prefix in japanese_names:
+        if name.startswith(prefix):
+            return Language.JAPANESE
+    if name.startswith("LATIN"):
+        return Language.ENGLISH
+    return Language.NEUTRAL
+
+
 def main():
-    text = pyperclip.paste()
+    files: queue.Queue[File] = queue.Queue(maxsize=0)
+
+    text: str = pyperclip.paste()
 
     japanese_count = 0
     english_count = 0
     neutral_count = 0
 
     for c in text:
-        japanese_names = [
-            "CJK",
-            "HIRAGANA",
-            "KATAKANA",
-        ]
-        english_names = ["LATIN"]
-
-        checked = False
-        name = unicodedata.name(c, "UNKNOWN")
-        for prefix in japanese_names:
-            if name.startswith(prefix):
+        match get_char_language(c):
+            case Language.JAPANESE:
                 japanese_count += 1
-                checked = True
-        for prefix in english_names:
-            if name.startswith(prefix):
+            case Language.ENGLISH:
                 english_count += 1
-                checked = True
-        if not checked:
-            neutral_count += 1
-            checked = True
+            case Language.NEUTRAL:
+                neutral_count += 1
 
     mode = Mode.CLI
 
@@ -83,103 +190,101 @@ def main():
     elif len(text) > CLI_MAX_TEXT:
         mode = Mode.ENGLISH_ONLY
 
-    match mode:
-        case Mode.CLI:
-            file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-            file.close()
-            filename = Path(file.name)
-            try:
-                proc = subprocess.run(
-                    [
-                        "piper",
-                        "-m",
-                        Path.home()
-                        / ".local/share/piper-tts/en_US-hfc_female-medium.onnx",
-                        "-f",
-                        filename,
-                    ],
-                    input=text,
-                    text=True,
-                )
-                assert proc.returncode == 0
-                proc = subprocess.run(
-                    [
-                        "mpv",
-                        "--no-config",
-                        f"--script={Path.home()}/opt/mpv-mpris/mpris.so",
-                        filename,
-                    ]
-                )
-                assert proc.returncode == 0
-            finally:
-                filename.unlink()
-        case _:
-            print(japanese_count, english_count, neutral_count)
-            os.abort()
+    # response: requests.Response | None = None
 
-    # TODO: Mode.ENGLISH_ONLY
-    # TODO: Mode.JAPANESE_ONLY
-    # TODO: Mode.ENGLISH_JAPANESE
+    servers = []
+    print(japanese_count, english_count, neutral_count, mode)
+    t = threading.Thread(target=play_thread, args=(files,))
+    t.start()
+    if mode == Mode.CLI:
+        # TODO: use play thread
+        file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        file.close()
+        filename = Path(file.name)
+        try:
+            proc = subprocess.run(
+                [
+                    "piper",
+                    "-m",
+                    Config.piper_model,
+                    "-f",
+                    filename,
+                ],
+                input=text,
+                text=True,
+            )
+            assert proc.returncode == 0
+            play(filename)
+        finally:
+            filename.unlink()
+    elif mode == Mode.ENGLISH_ONLY or mode == Mode.JAPANESE_ONLY:
+        sentences: list[str] = []
+        sep = r""
+        if mode == Mode.ENGLISH_ONLY:
+            servers.append(start_piper_server())
+            sep = r"\. |\n"
+        else:
+            servers.append(start_voicevox_server())
+            sep = r"。"
 
+        sentences: list[str] = re.split(sep, text)
 
-def server():
-    # TODO: if the text is too short and doesn't contain Japanese
-    # characters, then run without a server
+        for sentence in sentences:
+            if not sentence:
+                continue
+            elif len(sentence) == 1 and get_char_language(sentence) == Language.NEUTRAL:
+                continue
 
-    # TODO: add a Japanese server and use only it if the text is 95% Japanese
-    # TODO: allow mixing Japanese and English text
+            language = (
+                Language.ENGLISH
+                if mode  == Mode.ENGLISH_ONLY
+                else Language.JAPANESE
+            )
 
-    global running, files
+            add_to_queue(files, sentence, language)
+    else:
+        servers.append(start_piper_server())
+        servers.append(start_voicevox_server())
 
-    server_cmd = [
-        Path.home() / "opt/venv11/bin/python",
-        "-m",
-        "piper.http_server",
-        "-m",
-        Path.home() / ".local/share/piper-tts/en_US-hfc_female-medium.onnx",
-    ]
-    server = subprocess.Popen(server_cmd)
+        chars = list(text)
+        sentence_language = Language.NEUTRAL
+        sentence = ""
 
-    sentences = text.split(".")
+        sentences: list[tuple[str, Language]] = []
 
-    mpv_thread = threading.Thread(target=mpv)
-    mpv_thread.start()
+        while chars:
+            char = chars.pop(0)
 
-    for sentence in sentences:
-        if not sentence:
-            continue
+            language = get_char_language(char)
 
-        response: requests.Response | None = None
-        for i in range(3):
-            try:
-                response = requests.post(
-                    "http://127.0.0.1:5000/synthesize",
-                    json={"text": sentence},
-                )
+            if sentence_language == language:
+                sentence += char
+            elif sentence_language == Language.NEUTRAL or language == Language.NEUTRAL:
+                sentence += char
+                if sentence_language == Language.NEUTRAL:
+                    sentence_language = language
+            else:
+                sentences.append((sentence.strip(), sentence_language))
+                sentence = char
+                sentence_language = language
 
-                break
-            except requests.exceptions.ConnectionError:
-                print("Wait!")
-                time.sleep(1)
+        sentences.append((sentence.strip(), sentence_language))
 
-        if not response:
-            running = False
-            mpv_thread.join()
-            assert response
+        # print(sentences)
 
-        file: File = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-        _ = Path(file.name).write_bytes(response.content)
-        files.append(file)
-        print(f'Add "{sentence}"')
+        for sentence in sentences:
+            # TODO: actually I need split this sentence in subsentence
+            add_to_queue(files, sentence[0], sentence[1])
 
-    print(running)
-    running = False
-    print(running)
+    files.shutdown()
 
-    mpv_thread.join()
+    files.join()
+    t.join()
 
-    server.send_signal(signal.SIGINT)
-    _ = server.wait()
+    for server in servers:
+        server.send_signal(signal.SIGINT)
+        _ = server.wait()
+    # TODO: new instance kill previous
 
 
 if __name__ == "__main__":

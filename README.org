@@ -1,10 +1,8 @@
 * Dotfiles
-
 My personal dotfiles, including configuration files and scripts.
-
 * Configurations
-
 - XDG user directories (~user-dirs.dirs~)
+- autostart (~mpd-mpris.desktop~, ~mpd.desktop~)
 - bash (~.bashrc~, ~.bash_profile~)
 - btop (~btop.conf~)
 - clang (~.clang-format~)
@@ -20,10 +18,7 @@ My personal dotfiles, including configuration files and scripts.
 - mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~)
 - scripts - a collection of my scripts
-- x11
-
 * Scripts
-
 - ~anki-screenshot.sh~
 - ~deploy.sh~ - create symlinks for configs
 - ~notification-sound.sh~ - play notification sound (used in dunst
@@ -33,13 +28,10 @@ My personal dotfiles, including configuration files and scripts.
 - ~proton-cachyos~ - run proton-cachyos using umu-run
 - ~new-tts.py~ - WIP script that will combine my old ~tts.py~ and
   ~tts-jp.py~
-
 * Deployment
-
 #+BEGIN_SRC sh
 ./deploy.bash
 #+END_SRC
-
 * Refereces
 - .config/fontconfig/conf.d/99-japanese-fonts.conf from
   [[https://github.com/tatsumoto-ren/dotfiles]]
