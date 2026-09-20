@@ -122,8 +122,7 @@
  '(default-frame-alist '((alpha-background . 90)))
  '(delete-selection-mode t)
  '(display-line-numbers-type 'relative)
- '(eglot-ignored-server-capabilities
-   '(:inlayHintProvider))
+ '(eglot-ignored-server-capabilities '(:inlayHintProvider))
  '(global-company-mode t)
  '(global-display-line-numbers-mode t)
  '(global-whitespace-mode t)
@@ -137,7 +136,7 @@
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/routine.org"))
  '(org-log-repeat nil)
- '(package-selected-packages '(cmake-mode fic-mode odin-mode simpc-mode))
+ '(package-selected-packages '(odin-mode simpc-mode))
  '(package-vc-selected-packages
    '((simpc-mode :url "https://github.com/rexim/simpc-mode.git")
      (odin-mode :url "https://github.com/mattt-b/odin-mode.git")))

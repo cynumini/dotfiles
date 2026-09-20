@@ -6,7 +6,6 @@ My personal dotfiles, including configuration files and scripts.
 - bash (~.bashrc~, ~.bash_profile~)
 - btop (~btop.conf~)
 - clang (~.clang-format~)
-- dunst (~dunstrc~)
 - emacs (~.emacs~)
 - fcitx5 (~config~)
 - fonts (~99-japanese-fonts.conf~)
@@ -16,7 +15,7 @@ My personal dotfiles, including configuration files and scripts.
 - hyprland (~hyprland.lua~, ~.luarc.json~)
 - labwc (~rc.xml~, ~autostart~)
 - mpd (~mpd.conf~)
-- mpv (~input.conf~, ~mpv.conf~)
+- mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~)
 - scripts - a collection of my scripts
 * Scripts
 - ~anki-screenshot.sh~

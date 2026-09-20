@@ -4,8 +4,8 @@ tmp_png=$(mktemp --suffix=.png)
 tmp_resized=$(mktemp --suffix=.png)
 tmp_avif=$(mktemp --tmpdir="$HOME/.local/share/Anki2/User 1/collection.media/" paste-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.avif)
 
-grim -g "$(slurp)" "$tmp_png"
-# spectacle -rbn -o "$tmp_png"
+# grim -g "$(slurp)" "$tmp_png"
+spectacle -rbn -o "$tmp_png"
 # maim -s "$tmp_png"
 # import -screen "$tmp_png"
 
