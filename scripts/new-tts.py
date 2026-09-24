@@ -1,29 +1,29 @@
 #!/usr/bin/python
 
+import json
+import pyperclip
 import queue
 import re
-import json
-import threading
-import signal
-import tempfile
-import time
-import urllib
-import pyperclip
-import subprocess
 import requests
+import signal
+import socket
+import subprocess
+import sys
+import tempfile
+import threading
+import time
+import unicodedata
+import urllib
+
+from enum import Enum, auto
 from pathlib import Path
 from typing import Protocol
-from enum import Enum, auto
 
-import unicodedata
+stop_event = threading.Event()
 
-CLI_MAX_TEXT = 512
-
-
-class Config:
-    piper_model: Path = (
-        Path.home() / ".local/share/piper-tts/en_US-hfc_female-medium.onnx"
-    )
+CLI_MAX_TEXT: int = 512
+PIPER_MODEL: Path = Path.home() / ".local/share/piper-tts/en_US-hfc_female-medium.onnx"
+SOCKET: Path = Path("/tmp/tts.sock")
 
 
 class File(Protocol):
@@ -33,33 +33,38 @@ class File(Protocol):
 
 
 def play(filename: Path):
-    proc = subprocess.run(
-        [
-            "mpv",
-            "--no-config",
-            f"--script={Path.home()}/opt/mpv-mpris/mpris.so",
-            filename,
-        ]
-    )
-    if proc.returncode != 0:
-        raise RuntimeError(f"Couldn't play {filename}")
+    cmd = [
+        "mpv",
+        "--no-config",
+        f"--script={Path.home()}/opt/mpv-mpris/mpris.so",
+        filename,
+    ]
+    with subprocess.Popen(cmd) as mpv:
+        while mpv.poll() is None:
+            if stop_event.wait(0.1):
+                mpv.terminate()
+                break
 
 
 def play_thread(files: queue.Queue[File]):
     while True:
         try:
             file = files.get()
-            try:
-                filename = Path(file.name)
-                try:
-                    play(filename)
-                finally:
-                    file.close()
-                    filename.unlink()
-            finally:
-                files.task_done()
         except queue.ShutDown:
             break
+        filename = Path(file.name)
+        try:
+            play(filename)
+        finally:
+            file.close()
+            filename.unlink(missing_ok=True)
+            files.task_done()
+
+
+class Language(Enum):
+    ENGLISH = auto()
+    JAPANESE = auto()
+    NEUTRAL = auto()
 
 
 def add_to_queue(files: queue.Queue[File], sentence: str, language: Language):
@@ -67,7 +72,10 @@ def add_to_queue(files: queue.Queue[File], sentence: str, language: Language):
     file: File = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
     assert file.write(response.content) == len(response.content)
     file.close()
-    files.put(file)
+    try:
+        files.put(file)
+    except queue.ShutDown:
+        pass
 
 
 class Mode(Enum):
@@ -84,7 +92,7 @@ def start_piper_server():
             "-m",
             "piper.http_server",
             "-m",
-            Config.piper_model,
+            PIPER_MODEL,
         ]
     )
 
@@ -133,12 +141,6 @@ def voicevox_request(sentence: str):
     raise RuntimeError("Piper connection error")
 
 
-class Language(Enum):
-    ENGLISH = auto()
-    JAPANESE = auto()
-    NEUTRAL = auto()
-
-
 def do_request(sentence: str, language: Language):
     assert language != Language.NEUTRAL
     if language == Language.ENGLISH:
@@ -163,129 +165,158 @@ def get_char_language(char: str) -> Language:
     return Language.NEUTRAL
 
 
+def process_text(files: queue.Queue[File], block: tuple[str, Language]):
+    text, language = block
+    if language == Language.ENGLISH:
+        sep = r"\.\s+|\n+"
+    else:
+        sep = r"。|！|？"
+    sentences: list[str] = re.split(sep, text)
+    for sentence in sentences:
+        if not sentence:
+            continue
+        elif len(sentence) == 1 and get_char_language(sentence) == Language.NEUTRAL:
+            continue
+        add_to_queue(files, sentence, language)
+
+
+def listen(files: queue.Queue[File]):
+    SOCKET.unlink(missing_ok=True)
+    server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    server.settimeout(1.0)
+    server.bind(str(SOCKET))
+    server.listen(1)
+    while not stop_event.is_set():
+        print("server start")
+        try:
+            connection, _ = server.accept()
+            connection.close()
+            stop_event.set()
+            files.shutdown(immediate=True)
+            print("server end")
+        except socket.timeout:
+            pass
+        print("timeout")
+
+
 def main():
     files: queue.Queue[File] = queue.Queue(maxsize=0)
-
-    text: str = pyperclip.paste()
-
-    japanese_count = 0
-    english_count = 0
-    neutral_count = 0
-
-    for c in text:
-        match get_char_language(c):
-            case Language.JAPANESE:
-                japanese_count += 1
-            case Language.ENGLISH:
-                english_count += 1
-            case Language.NEUTRAL:
-                neutral_count += 1
-
-    mode = Mode.CLI
-
-    if japanese_count > english_count:
-        mode = Mode.JAPANESE_ONLY
-    elif japanese_count > 0:
-        mode = Mode.ENGLISH_JAPANESE
-    elif len(text) > CLI_MAX_TEXT:
-        mode = Mode.ENGLISH_ONLY
-
-    # response: requests.Response | None = None
-
     servers = []
-    print(japanese_count, english_count, neutral_count, mode)
-    t = threading.Thread(target=play_thread, args=(files,))
-    t.start()
-    if mode == Mode.CLI:
-        # TODO: use play thread
-        file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-        file.close()
-        filename = Path(file.name)
+    try:
         try:
-            proc = subprocess.run(
-                [
-                    "piper",
-                    "-m",
-                    Config.piper_model,
-                    "-f",
-                    filename,
-                ],
-                input=text,
-                text=True,
-            )
-            assert proc.returncode == 0
-            play(filename)
-        finally:
-            filename.unlink()
-    elif mode == Mode.ENGLISH_ONLY or mode == Mode.JAPANESE_ONLY:
-        sentences: list[str] = []
-        sep = r""
-        if mode == Mode.ENGLISH_ONLY:
-            servers.append(start_piper_server())
-            sep = r"\. |\n"
-        else:
-            servers.append(start_voicevox_server())
-            sep = r"。"
+            connection = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            connection.connect(str(SOCKET))
+            connection.close()
+            time.sleep(2)
+        except FileNotFoundError:
+            pass
+        except ConnectionRefusedError:
+            SOCKET.unlink(missing_ok=True)
+        server_thread = threading.Thread(target=listen, daemon=True, args=(files,))
+        server_thread.start()
 
-        sentences: list[str] = re.split(sep, text)
+        text: str = pyperclip.paste()
 
-        for sentence in sentences:
-            if not sentence:
-                continue
-            elif len(sentence) == 1 and get_char_language(sentence) == Language.NEUTRAL:
-                continue
+        japanese_count = 0
+        english_count = 0
+        neutral_count = 0
 
-            language = (
-                Language.ENGLISH
-                if mode  == Mode.ENGLISH_ONLY
-                else Language.JAPANESE
-            )
+        for c in text:
+            match get_char_language(c):
+                case Language.JAPANESE:
+                    japanese_count += 1
+                case Language.ENGLISH:
+                    english_count += 1
+                case Language.NEUTRAL:
+                    neutral_count += 1
 
-            add_to_queue(files, sentence, language)
-    else:
-        servers.append(start_piper_server())
-        servers.append(start_voicevox_server())
+        mode = Mode.CLI
 
-        chars = list(text)
-        sentence_language = Language.NEUTRAL
-        sentence = ""
+        if japanese_count > english_count:
+            mode = Mode.JAPANESE_ONLY
+        elif japanese_count > 0:
+            mode = Mode.ENGLISH_JAPANESE
+        elif len(text) > CLI_MAX_TEXT:
+            mode = Mode.ENGLISH_ONLY
 
-        sentences: list[tuple[str, Language]] = []
+        if mode == Mode.CLI:
+            file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+            filename = Path(file.name)
+            file.close()
+            try:
+                proc = subprocess.run(
+                    [
+                        "piper",
+                        "-m",
+                        PIPER_MODEL,
+                        "-f",
+                        filename,
+                    ],
+                    input=text,
+                    text=True,
+                )
+                assert proc.returncode == 0
+                play(filename)
+            finally:
+                filename.unlink()
+            return 0
 
-        while chars:
-            char = chars.pop(0)
-
-            language = get_char_language(char)
-
-            if sentence_language == language:
-                sentence += char
-            elif sentence_language == Language.NEUTRAL or language == Language.NEUTRAL:
-                sentence += char
-                if sentence_language == Language.NEUTRAL:
-                    sentence_language = language
+        print(japanese_count, english_count, neutral_count, mode)
+        t = threading.Thread(target=play_thread, args=(files,))
+        t.start()
+        if mode == Mode.ENGLISH_ONLY or mode == Mode.JAPANESE_ONLY:
+            if mode == Mode.ENGLISH_ONLY:
+                servers.append(start_piper_server())
+                process_text(files, (text, Language.ENGLISH))
             else:
-                sentences.append((sentence.strip(), sentence_language))
-                sentence = char
-                sentence_language = language
+                servers.append(start_voicevox_server())
+                process_text(files, (text, Language.JAPANESE))
+                print("-" * 10, 13)
+        else:
+            servers.append(start_piper_server())
+            servers.append(start_voicevox_server())
 
-        sentences.append((sentence.strip(), sentence_language))
+            sentence_language = Language.NEUTRAL
+            block_text: str = ""
 
-        # print(sentences)
+            blocks: list[tuple[str, Language]] = []
 
-        for sentence in sentences:
-            # TODO: actually I need split this sentence in subsentence
-            add_to_queue(files, sentence[0], sentence[1])
+            for char in text:
+                language = get_char_language(char)
 
-    files.shutdown()
+                if sentence_language == language:
+                    block_text += char
 
-    files.join()
-    t.join()
+                elif sentence_language == Language.NEUTRAL:
+                    block_text += char
+                    sentence_language = language
 
-    for server in servers:
-        server.send_signal(signal.SIGINT)
-        _ = server.wait()
-    # TODO: new instance kill previous
+                elif language == Language.NEUTRAL:
+                    block_text += char
+
+                else:
+                    blocks.append((block_text.strip(), sentence_language))
+                    block_text = char
+                    sentence_language = language
+
+            if block_text.strip():
+                blocks.append((block_text.strip(), sentence_language))
+
+            for block in blocks:
+                print(block)
+                process_text(files, block)
+
+        files.shutdown()
+        files.join()
+        t.join()
+
+        return 0
+    finally:
+        for server in servers:
+            if server.poll() is None:
+                server.send_signal(signal.SIGINT)
+                server.wait()
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

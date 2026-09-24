@@ -22,17 +22,17 @@
   :vc (:url "https://github.com/mattt-b/odin-mode.git"
        :rev :newest)
   :mode ("\\.odin\\'" . odin-mode))
-(use-package simpc-mode
-  :ensure t
-  :bind
-  (:map simpc-mode-map
-        ("<f5>" . (lambda ()
-                    (interactive)
-                    (when-let* ((dir (locate-dominating-file default-directory "b")))
-                      (let ((default-directory dir)) (compile "./b"))))))
-  :vc (:url "https://github.com/rexim/simpc-mode.git"
-       :rev :newest)
-  :mode ("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
+;; (use-package simpc-mode
+;;   :ensure t
+;;   :bind
+;;   (:map simpc-mode-map
+;;         ("<f5>" . (lambda ()
+;;                     (interactive)
+;;                     (when-let* ((dir (locate-dominating-file default-directory "b")))
+;;                       (let ((default-directory dir)) (compile "./b"))))))
+;;   :vc (:url "https://github.com/rexim/simpc-mode.git"
+;;        :rev :newest)
+;;   :mode ("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 (require 'mozc)
 
@@ -41,9 +41,9 @@
                `(python-mode . ,(eglot-alternatives
                                  '(("basedpyright-langserver" "--stdio")
                                    ("ruff" "server")))))
-  (add-to-list 'eglot-server-programs
-               `(simpc-mode . ,(eglot-alternatives
-                                 '(("clangd")))))
+  ;; (add-to-list 'eglot-server-programs
+  ;;              `(simpc-mode . ,(eglot-alternatives
+  ;;                                '(("clangd")))))
   (add-to-list 'eglot-server-programs
                `(lua-mode . ,(eglot-alternatives
                                  '(("lua-language-server"))))))
@@ -73,6 +73,17 @@
             (define-key eglot-mode-map (kbd "C-c i") 'eglot-inlay-hints-mode)
             (define-key eglot-mode-map (kbd "C-c e") 'eglot)
             (define-key eglot-mode-map (kbd "C-c k") 'eldoc)))
+
+(add-to-list 'auto-mode-alist '("\\.\\(cpp\\|hpp\\)\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(c\\|h\\)\\'" . c-ts-mode))
+
+(with-eval-after-load 'c++-ts-mode
+  (keymap-set c++-ts-mode-map "<f5>"
+              (lambda ()
+                (interactive)
+                (when-let* ((dir (locate-dominating-file default-directory "b")))
+                  (let ((default-directory dir))
+                    (compile "./b"))))))
 
 (eglot--code-action eglot-code-action-fixall "source.fixAll")
 
@@ -114,6 +125,7 @@
  '(backup-directory-alist '(("." . "~/.local/state/emacs")))
  '(c-basic-offset 4)
  '(c-hanging-semi&comma-criteria nil)
+ '(c-ts-mode-indent-offset 4)
  '(column-number-mode t)
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
@@ -143,6 +155,7 @@
  '(scroll-bar-mode nil)
  '(tab-width 4)
  '(tool-bar-mode nil)
+ '(trusted-content '("~/scripts/" "~/projects/"))
  '(vc-follow-symlinks t)
  '(whitespace-style
    '(face trailing tabs spaces newline missing-newline-at-eof empty
