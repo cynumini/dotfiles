@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
 import json
+import os
 import pyperclip
 import queue
 import re
@@ -13,17 +13,21 @@ import tempfile
 import threading
 import time
 import unicodedata
-import urllib
+import logging
 
 from enum import Enum, auto
 from pathlib import Path
 from typing import Protocol
 
-stop_event = threading.Event()
+shutdown_event = threading.Event()
 
 CLI_MAX_TEXT: int = 512
 PIPER_MODEL: Path = Path.home() / ".local/share/piper-tts/en_US-hfc_female-medium.onnx"
-SOCKET: Path = Path("/tmp/tts.sock")
+VOICEVOX_SPEAKER = 2
+VOICEVOX_SPEED_SCALE = 0.6
+SOCKET = Path(os.environ["XDG_RUNTIME_DIR"]) / "tts.sock"
+
+logger = logging.getLogger(__name__)
 
 
 class File(Protocol):
@@ -41,7 +45,7 @@ def play(filename: Path):
     ]
     with subprocess.Popen(cmd) as mpv:
         while mpv.poll() is None:
-            if stop_event.wait(0.1):
+            if shutdown_event.wait(0.1):
                 mpv.terminate()
                 break
 
@@ -57,7 +61,7 @@ def play_thread(files: queue.Queue[File]):
             play(filename)
         finally:
             file.close()
-            filename.unlink(missing_ok=True)
+            filename.unlink()
             files.task_done()
 
 
@@ -70,12 +74,12 @@ class Language(Enum):
 def add_to_queue(files: queue.Queue[File], sentence: str, language: Language):
     response = do_request(sentence, language)
     file: File = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-    assert file.write(response.content) == len(response.content)
+    _ = file.write(response.content)
     file.close()
     try:
         files.put(file)
     except queue.ShutDown:
-        pass
+        Path(file.name).unlink()
 
 
 class Mode(Enum):
@@ -101,51 +105,55 @@ def start_voicevox_server():
     return subprocess.Popen([Path.home() / "opt/vv-engine/run"])
 
 
-def piper_request(sentence: str):
-    for i in range(3):
-        try:
-            response = requests.post(
-                "http://127.0.0.1:5000/synthesize",
-                json={"text": sentence},
-            )
-            return response
-        except requests.exceptions.ConnectionError:
-            print("Wait!")
-            time.sleep(1)
-    raise RuntimeError("Piper connection error")
-
-
-def voicevox_request(sentence: str):
-    for i in range(3):
-        try:
-            speaker_index = 2
-            audio_query_response = requests.post(
-                "http://127.0.0.1:50021/audio_query?speaker="  # pyright: ignore[reportUnknownArgumentType]
-                + str(speaker_index)
-                + "&text="
-                + urllib.parse.quote(sentence, safe="")  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
-            )
-            assert audio_query_response.status_code == 200
-            audio_query = audio_query_response.json()  # pyright: ignore[reportAny]
-            audio_query["speedScale"] = 0.6
-            audio_query_json = json.dumps(audio_query)
-
-            response = requests.post(
-                "http://127.0.0.1:50021/synthesis?speaker=" + str(speaker_index),
-                data=audio_query_json,
-            )
-            return response
-        except requests.exceptions.ConnectionError:
-            print("Wait!")
-            time.sleep(1)
-    raise RuntimeError("Piper connection error")
-
-
-def do_request(sentence: str, language: Language):
-    assert language != Language.NEUTRAL
+def do_request(sentence: str, language: Language) -> requests.Response:
     if language == Language.ENGLISH:
-        return piper_request(sentence)
-    return voicevox_request(sentence)
+        server_name = "Piper"
+    elif language == Language.JAPANESE:
+        server_name = "VOICEVOX"
+    else:
+        raise RuntimeError(f"Unsupported language: {language}")
+
+    for attempt in range(3):
+        try:
+            if language == Language.ENGLISH:
+                response = requests.post(
+                    "http://127.0.0.1:5000/synthesize",
+                    json={"text": sentence},
+                    timeout=20,
+                )
+            else:
+                response = requests.post(
+                    "http://127.0.0.1:50021/audio_query",
+                    params={"speaker": VOICEVOX_SPEAKER, "text": sentence},
+                    timeout=20,
+                )
+                response.raise_for_status()
+                audio_query = response.json()  # pyright: ignore[reportAny]
+                audio_query["speedScale"] = VOICEVOX_SPEED_SCALE
+                response = requests.post(
+                    "http://127.0.0.1:50021/synthesis",
+                    params={"speaker": VOICEVOX_SPEAKER},
+                    json=audio_query,  # pyright: ignore[reportAny]
+                    timeout=20,
+                )
+            response.raise_for_status()
+            return response
+        except requests.exceptions.ConnectionError:
+            logger.warning(
+                "Can't connect to the %s server (attempt %d/3)",
+                server_name,
+                attempt + 1,
+            )
+            time.sleep(1)
+        except requests.exceptions.Timeout:
+            logger.warning(
+                "%s didn't respond within 20 seconds (attempt %d/3)",
+                server_name,
+                attempt + 1,
+            )
+
+    logger.error("%s request failed three times in a row; giving up", server_name)
+    raise RuntimeError(f"{server_name} request failed")
 
 
 def get_char_language(char: str) -> Language:
@@ -186,12 +194,12 @@ def listen(files: queue.Queue[File]):
     server.settimeout(1.0)
     server.bind(str(SOCKET))
     server.listen(1)
-    while not stop_event.is_set():
+    while not shutdown_event.is_set():
         print("server start")
         try:
             connection, _ = server.accept()
             connection.close()
-            stop_event.set()
+            shutdown_event.set()
             files.shutdown(immediate=True)
             print("server end")
         except socket.timeout:
