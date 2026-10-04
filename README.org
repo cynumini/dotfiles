@@ -16,6 +16,7 @@ My personal dotfiles, including configuration files and scripts.
 - mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~, ~subs2srs.conf~)
 - scripts - a collection of my scripts
+- vis (~visrc.lua~)
 * Scripts
 - ~anki-screenshot.sh~
 - ~deploy.sh~ - create symlinks for configs
@@ -26,6 +27,7 @@ My personal dotfiles, including configuration files and scripts.
 - ~proton-cachyos~ - run proton-cachyos using umu-run
 - ~new-tts.py~ - WIP script that will combine my old ~tts.py~ and
   ~tts-jp.py~
+- ~recover-kde.sh~ - recover KDE after visual glitches
 * Deployment
 #+BEGIN_SRC sh
 ./deploy.bash

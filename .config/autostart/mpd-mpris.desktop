@@ -1,6 +1,18 @@
 [Desktop Entry]
+Comment[en_US]=
+Comment=
 Exec=/home/patchouli/go/bin/mpd-mpris
+GenericName[en_US]=
+GenericName=
 Icon=application-x-executable
+MimeType=
+Name[en_US]=mpd-mpris
 Name=mpd-mpris
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
 Type=Application
 X-KDE-AutostartScript=true
+X-KDE-SubstituteUID=false
+X-KDE-Username=

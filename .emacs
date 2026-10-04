@@ -4,6 +4,7 @@
 (package-initialize)
 
 (use-package zig-mode :ensure t)
+(use-package d-mode :ensure t)
 (use-package lua-mode :ensure t)
 (use-package doom-themes :ensure t)
 (use-package magit :ensure t)
@@ -14,6 +15,12 @@
 (use-package meson-mode :ensure t)
 (use-package markdown-mode :ensure t)
 (use-package cmake-mode :ensure t)
+(use-package imenu-list :ensure t)
+(use-package hlsl-mode
+  :ensure t
+  :vc (:url "https://github.com/jcaw/hlsl-mode.git"
+       :rev :newest)
+  :mode ("\\.hlsl\\'" . hlsl-mode))
 (use-package fic-mode
   :ensure t
   :hook (prog-mode . fic-mode))
@@ -34,6 +41,8 @@
 ;;        :rev :newest)
 ;;   :mode ("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
+(global-set-key (kbd "C-c m") #'imenu-list-smart-toggle)
+
 (require 'mozc)
 
 (with-eval-after-load 'eglot
@@ -53,7 +62,7 @@
                      (interactive)
                      (insert (format-time-string "%Y-%m-%d"))))
 
-(keymap-global-set "C-c o"
+(keymap-global-set "C-c g"
                    (lambda ()
                      (interactive)
                      (dired "~/documents/org")))
@@ -125,6 +134,7 @@
  '(backup-directory-alist '(("." . "~/.local/state/emacs")))
  '(c-basic-offset 4)
  '(c-hanging-semi&comma-criteria nil)
+ '(c-ts-indent-offset 4)
  '(c-ts-mode-indent-offset 4)
  '(column-number-mode t)
  '(custom-enabled-themes '(doom-gruvbox))
@@ -148,9 +158,10 @@
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/routine.org"))
  '(org-log-repeat nil)
- '(package-selected-packages '(odin-mode simpc-mode))
+ '(package-selected-packages '(d-mode hlsl-mode imenu-list odin-mode simpc-mode))
  '(package-vc-selected-packages
-   '((simpc-mode :url "https://github.com/rexim/simpc-mode.git")
+   '((hlsl-mode :url "https://github.com/jcaw/hlsl-mode.git")
+     (simpc-mode :url "https://github.com/rexim/simpc-mode.git")
      (odin-mode :url "https://github.com/mattt-b/odin-mode.git")))
  '(scroll-bar-mode nil)
  '(tab-width 4)

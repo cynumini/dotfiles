@@ -175,12 +175,13 @@ def get_char_language(char: str) -> Language:
 
 def process_text(files: queue.Queue[File], block: tuple[str, Language]):
     text, language = block
+    sentences: list[str]
     if language == Language.ENGLISH:
-        sep = r"\.\s+|\n+"
+        sentences = re.findall(r"[^.!?]+[.!?]?", text)
     else:
-        sep = r"。|！|？"
-    sentences: list[str] = re.split(sep, text)
+        sentences = re.findall(r"[^。！？]+[。！？]?", text)
     for sentence in sentences:
+        sentence = sentence.strip()
         if not sentence:
             continue
         elif len(sentence) == 1 and get_char_language(sentence) == Language.NEUTRAL:
@@ -192,19 +193,22 @@ def listen(files: queue.Queue[File]):
     SOCKET.unlink(missing_ok=True)
     server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     server.settimeout(1.0)
-    server.bind(str(SOCKET))
-    server.listen(1)
-    while not shutdown_event.is_set():
-        print("server start")
-        try:
-            connection, _ = server.accept()
-            connection.close()
-            shutdown_event.set()
-            files.shutdown(immediate=True)
-            print("server end")
-        except socket.timeout:
-            pass
-        print("timeout")
+    try:
+        server.bind(str(SOCKET))
+        server.listen(1)
+        logger.info("listen - start")
+        while not shutdown_event.is_set():
+            try:
+                connection, _ = server.accept()
+                shutdown_event.set()
+                connection.close()
+                files.shutdown(immediate=True)
+            except socket.timeout:
+                pass
+    finally:
+        server.close()
+        SOCKET.unlink(missing_ok=True)
+        logger.info("listen - end")
 
 
 def main():
@@ -252,7 +256,7 @@ def main():
             filename = Path(file.name)
             file.close()
             try:
-                proc = subprocess.run(
+                _ = subprocess.run(
                     [
                         "piper",
                         "-m",
@@ -262,14 +266,14 @@ def main():
                     ],
                     input=text,
                     text=True,
+                    check=True,
                 )
-                assert proc.returncode == 0
                 play(filename)
             finally:
                 filename.unlink()
             return 0
 
-        print(japanese_count, english_count, neutral_count, mode)
+        logger.info(japanese_count, english_count, neutral_count, mode)
         t = threading.Thread(target=play_thread, args=(files,))
         t.start()
         if mode == Mode.ENGLISH_ONLY or mode == Mode.JAPANESE_ONLY:
@@ -279,7 +283,7 @@ def main():
             else:
                 servers.append(start_voicevox_server())
                 process_text(files, (text, Language.JAPANESE))
-                print("-" * 10, 13)
+                logger.info("-" * 10, 13)
         else:
             servers.append(start_piper_server())
             servers.append(start_voicevox_server())
@@ -311,15 +315,18 @@ def main():
                 blocks.append((block_text.strip(), sentence_language))
 
             for block in blocks:
-                print(block)
+                logger.info(block)
                 process_text(files, block)
 
+                
         files.shutdown()
         files.join()
         t.join()
 
         return 0
     finally:
+        shutdown_event.set()
+        files.shutdown(immediate=True)
         for server in servers:
             if server.poll() is None:
                 server.send_signal(signal.SIGINT)

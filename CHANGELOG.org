@@ -1,4 +1,18 @@
 * Changelog
+** [0.13] - 2026-10-04
+*** bash
+- add ~SDL3_shadercross~ to the ~PATH~
+*** gtk
+- switch to dark mode
+*** vis
+- add ~visrc.lua~
+*** emacs
+- add ~d-mode~
+- add ~hlsl-mode~
+- add ~imenu-list~
+*** scripts
+- improve ~new-tts.py~
+- add ~recover-kde.sh~
 ** [0.12] - 2026-09-27
 *** foot
 - remove ~foot.ini~
