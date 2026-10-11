@@ -11,12 +11,12 @@ My personal dotfiles, including configuration files and scripts.
 - fonts (~99-japanese-fonts.conf~)
 - git (~config~)
 - gtk (~gtk-3.0/settings.ini~, ~gtk-4.0/settings.ini~)
-- hyprland (~hyprland.lua~, ~.luarc.json~)
 - labwc (~rc.xml~, ~autostart~)
 - mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~, ~subs2srs.conf~)
 - scripts - a collection of my scripts
 - vis (~visrc.lua~)
+- nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~)
 * Scripts
 - ~anki-screenshot.sh~
 - ~deploy.sh~ - create symlinks for configs

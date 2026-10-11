@@ -1,4 +1,14 @@
 * Changelog
+** [0.14] - 2026-10-11
+*** hyprland
+- remove ~.luarc.json~
+- remove ~hyprland.lua~
+*** mpv
+- disable ~enable_new_note_timer~, since it causes audio distortion
+*** neovim
+- add ~init.lua~
+- add ~lua/lua_ls.lua~
+- add ~nvim-pack-lock.json~
 ** [0.13] - 2026-10-04
 *** bash
 - add ~SDL3_shadercross~ to the ~PATH~
