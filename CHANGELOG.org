@@ -1,4 +1,14 @@
 * Changelog
+** [0.15] - 2026-10-18
+*** kanshi
+- remove ~config~
+*** waybar
+- add ~config.jsonc~
+- add ~style.css~
+*** emacs
+- add ~multiple-cursors~
+- add ~yasnippet~
+- add ~b-build~ to ~hlsl-mode~
 ** [0.14] - 2026-10-11
 *** hyprland
 - remove ~.luarc.json~

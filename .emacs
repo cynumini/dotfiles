@@ -3,6 +3,13 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  (:map multiple-cursors-mode
+        ("C->" . 'mc/mark-next-like-this)
+        ("C-<" . 'mc/mark-previous-like-this)
+        ("C-c C-<" . 'mc/mark-all-like-this)))
 (use-package zig-mode :ensure t)
 (use-package d-mode :ensure t)
 (use-package lua-mode :ensure t)
@@ -16,6 +23,7 @@
 (use-package markdown-mode :ensure t)
 (use-package cmake-mode :ensure t)
 (use-package imenu-list :ensure t)
+(use-package yasnippet :ensure t)
 (use-package hlsl-mode
   :ensure t
   :vc (:url "https://github.com/jcaw/hlsl-mode.git"
@@ -86,13 +94,17 @@
 (add-to-list 'auto-mode-alist '("\\.\\(cpp\\|hpp\\)\\'" . c++-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(c\\|h\\)\\'" . c-ts-mode))
 
+(defun b-build ()
+  (interactive)
+  (when-let* ((dir (locate-dominating-file default-directory "b")))
+    (let ((default-directory dir))
+      (compile "./b"))))
+
 (with-eval-after-load 'c++-ts-mode
-  (keymap-set c++-ts-mode-map "<f5>"
-              (lambda ()
-                (interactive)
-                (when-let* ((dir (locate-dominating-file default-directory "b")))
-                  (let ((default-directory dir))
-                    (compile "./b"))))))
+  (keymap-set c++-ts-mode-map "<f5>" 'b-build))
+
+(with-eval-after-load 'hlsl-mode
+  (keymap-set hlsl-mode-map "<f5>" 'b-build))
 
 (eglot--code-action eglot-code-action-fixall "source.fixAll")
 
@@ -158,7 +170,9 @@
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/routine.org"))
  '(org-log-repeat nil)
- '(package-selected-packages '(d-mode hlsl-mode imenu-list odin-mode simpc-mode))
+ '(package-selected-packages
+   '(d-mode hlsl-mode imenu-list multiple-cursors odin-mode simpc-mode
+            yasnippet))
  '(package-vc-selected-packages
    '((hlsl-mode :url "https://github.com/jcaw/hlsl-mode.git")
      (simpc-mode :url "https://github.com/rexim/simpc-mode.git")

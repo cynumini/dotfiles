@@ -14,9 +14,10 @@ My personal dotfiles, including configuration files and scripts.
 - labwc (~rc.xml~, ~autostart~)
 - mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~, ~subs2srs.conf~)
+- nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~)
 - scripts - a collection of my scripts
 - vis (~visrc.lua~)
-- nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~)
+- waybar (~config.jsonc~, ~style.css~)
 * Scripts
 - ~anki-screenshot.sh~
 - ~deploy.sh~ - create symlinks for configs

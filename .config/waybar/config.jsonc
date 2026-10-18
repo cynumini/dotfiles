@@ -1,0 +1,87 @@
+// -*- mode: jsonc -*-
+{
+    "position": "bottom",
+    "modules-left": [
+        "hyprland/workspaces",
+	"hyprland/window"
+    ],
+    "modules-right": [
+        "mpris",
+        "disk",
+        "disk#2",
+        "pulseaudio",
+        "bluetooth",
+        "cpu",
+        "memory",
+        "custom/gpu",
+        "idle_inhibitor",
+        "clock",
+        "tray"
+    ],
+    "hyprland/workspaces": {
+        "on-click": "activate"
+    },
+    "hyprland/window": {
+        "icon": true
+    },
+    "mpris": {
+        "dynamic-len": 32,
+        "format": "{status_icon} {player}: {dynamic}",
+        "status-icons": {
+            "paused": "⏸️",
+            "playing": "▶️",
+            "stopped": "⏹️"
+        }
+    },
+    "disk": {
+        "format": "/: {free}",
+        "path": "/"
+    },
+    "disk#2": {
+        "format": "/mnt: {free}",
+        "path": "/mnt"
+    },
+    "pulseaudio": {
+        "format": "VOL: {volume}%",
+        "scroll-step": 5,
+        "on-click": "foot wiremix"
+    },
+    "bluetooth": {
+        "format": "BT: {status}",
+        "format-connected-battery": "BT: {device_battery_percentage}%"
+    },
+    "cpu": {
+        "format": "CPU: {load}",
+        "on-click": "foot -w 1280x720 btop"
+    },
+    "memory": {
+        "format": "RAM: {used}GiB SWAP: {swapUsed}GiB",
+        "on-click": "foot -w 1280x720 btop"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "☕",
+            "deactivated": "💤"
+        }
+    },
+    "clock": {
+        "interval": 1,
+        "format": "{:%F %A %T}",
+        "tooltip-format": "{calendar}",
+        "calendar": {
+            "format": {
+                "today": "<span color='#ff0000'>{}</span>"
+            }
+        }
+    },
+    "tray": {
+        "icon-size": 20
+    },
+    "custom/gpu": {
+        "interval": 30,
+        "format": "VRAM: {}",
+        "on-click": "foot -w 740x510 sh -c 'nvidia-smi; read -n 1'",
+        "exec": "nvidia-smi -q -d MEMORY | sed -n -E 's/[[:space:]]+Used[[:space:]]+: ([0-9]+) (MiB)/\\1\\2/p' | head -n 1"
+    }
+}
