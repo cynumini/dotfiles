@@ -1,4 +1,13 @@
 * Changelog
+** [0.16] - 2026-10-25
+*** labwc
+- remove ~menu.xml~
+*** vis
+- remove ~visrc.lua~
+*** emacs
+- migrate to ~CMake~
+*** scripts
+- add ~bookmarks.py~
 ** [0.15] - 2026-10-18
 *** kanshi
 - remove ~config~

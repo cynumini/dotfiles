@@ -11,12 +11,11 @@ My personal dotfiles, including configuration files and scripts.
 - fonts (~99-japanese-fonts.conf~)
 - git (~config~)
 - gtk (~gtk-3.0/settings.ini~, ~gtk-4.0/settings.ini~)
-- labwc (~rc.xml~, ~autostart~)
+- labwc (~rc.xml~, ~autostart~, ~menu.xml~)
 - mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~, ~subs2srs.conf~)
 - nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~)
 - scripts - a collection of my scripts
-- vis (~visrc.lua~)
 - waybar (~config.jsonc~, ~style.css~)
 * Scripts
 - ~anki-screenshot.sh~
@@ -29,6 +28,7 @@ My personal dotfiles, including configuration files and scripts.
 - ~new-tts.py~ - WIP script that will combine my old ~tts.py~ and
   ~tts-jp.py~
 - ~recover-kde.sh~ - recover KDE after visual glitches
+- ~bookmarks.py~
 * Deployment
 #+BEGIN_SRC sh
 ./deploy.bash

@@ -96,9 +96,9 @@
 
 (defun b-build ()
   (interactive)
-  (when-let* ((dir (locate-dominating-file default-directory "b")))
+  (when-let* ((dir (locate-dominating-file default-directory "CMakeLists.txt")))
     (let ((default-directory dir))
-      (compile "./b"))))
+      (compile "cmake --build build"))))
 
 (with-eval-after-load 'c++-ts-mode
   (keymap-set c++-ts-mode-map "<f5>" 'b-build))
@@ -157,6 +157,7 @@
  '(delete-selection-mode t)
  '(display-line-numbers-type 'relative)
  '(eglot-ignored-server-capabilities '(:inlayHintProvider))
+ '(gdb-many-windows t)
  '(global-company-mode t)
  '(global-display-line-numbers-mode t)
  '(global-whitespace-mode t)
