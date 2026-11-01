@@ -16,7 +16,6 @@ My personal dotfiles, including configuration files and scripts.
 - mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~, ~subs2srs.conf~)
 - nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~)
 - scripts - a collection of my scripts
-- waybar (~config.jsonc~, ~style.css~)
 * Scripts
 - ~anki-screenshot.sh~
 - ~deploy.sh~ - create symlinks for configs

@@ -51,8 +51,6 @@
 
 (global-set-key (kbd "C-c m") #'imenu-list-smart-toggle)
 
-(require 'mozc)
-
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
                `(python-mode . ,(eglot-alternatives
@@ -100,8 +98,17 @@
     (let ((default-directory dir))
       (compile "cmake --build build"))))
 
+(defun b-check ()
+  (interactive)
+  (when-let* ((dir (locate-dominating-file default-directory "CMakeLists.txt")))
+    (let ((default-directory dir))
+      (compile "clang-tidy -p build --config-file .clang-tidy src/*.cpp "))))
+
 (with-eval-after-load 'c++-ts-mode
   (keymap-set c++-ts-mode-map "<f5>" 'b-build))
+
+(with-eval-after-load 'c++-ts-mode
+  (keymap-set c++-ts-mode-map "<f6>" 'b-check))
 
 (with-eval-after-load 'hlsl-mode
   (keymap-set hlsl-mode-map "<f5>" 'b-build))
