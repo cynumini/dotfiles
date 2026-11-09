@@ -1,4 +1,11 @@
 * Changelog
+** [0.18] - 2026-11-09
+*** foot
+- add ~foot.ini~
+*** nvim
+- add ~c.lua~
+- change theme to ~kanagawa~
+- add ~nvim-treesitter~
 ** [0.17] - 2026-11-01
 *** waybar
 - remove ~config.jsonc~

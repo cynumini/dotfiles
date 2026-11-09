@@ -9,12 +9,13 @@ My personal dotfiles, including configuration files and scripts.
 - emacs (~.emacs~)
 - fcitx5 (~config~)
 - fonts (~99-japanese-fonts.conf~)
+- foot (~foot.ini~)
 - git (~config~)
 - gtk (~gtk-3.0/settings.ini~, ~gtk-4.0/settings.ini~)
 - labwc (~rc.xml~, ~autostart~, ~menu.xml~)
 - mpd (~mpd.conf~)
 - mpv (~input.conf~, ~mpv.conf~, ~SimpleHistory.conf~, ~subs2srs.conf~)
-- nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~)
+- nvim (~init.lua~, ~lua/lua_ls.lua~, ~nvim-pack-lock.json~, ~c.lua~)
 - scripts - a collection of my scripts
 * Scripts
 - ~anki-screenshot.sh~

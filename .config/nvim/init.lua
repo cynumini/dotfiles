@@ -1,4 +1,8 @@
+-- KANAGAWA
+vim.pack.add({{src = "https://github.com/rebelot/kanagawa.nvim"}})
+
 -- theme
+vim.cmd.colorscheme("kanagawa")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) -- disable background
 
 -- basic
@@ -11,6 +15,7 @@ vim.g.mapleader = " "
 vim.pack.add { { src = 'https://github.com/neovim/nvim-lspconfig' } }
 vim.lsp.enable('serve_d')
 vim.lsp.enable('basedpyright')
+vim.lsp.enable('clangd')
 vim.lsp.enable('ruff')
 require("lua_ls") -- curstom lua_ls config
 vim.lsp.enable('lua_ls')
@@ -34,15 +39,26 @@ vim.keymap.set("n", "<leader>g", FzfLua.git_files)
 vim.keymap.set("n", "<leader>b", FzfLua.buffers)
 vim.keymap.set("n", "<leader>d", FzfLua.diagnostics_document)
 
--- D
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "d",
-    callback = function()
-        vim.opt_local.makeprg = "dub"
-        vim.opt_local.errorformat = {
-            [[%f(%l\,%c): Error: %m]],
-            [[%f(%l\,%c): Warning: %m]],
-            [[%-G%.%#]],
-        }
-    end,
+
+-- nvim-treesitter
+vim.pack.add({
+    { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
 })
+require('nvim-treesitter').setup()
+require('nvim-treesitter').install { 'lua', 'c', 'zig', 'python' }
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '<filetype>' },
+  callback = function() vim.treesitter.start() end,
+})
+
+vim.filetype.add({
+    extension = {
+        h = 'c',
+        hpp = 'cpp',
+    },
+})
+
+-- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+-- vim.wo[0][0].foldmethod = 'expr'
+
