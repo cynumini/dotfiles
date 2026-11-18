@@ -1,4 +1,9 @@
 * Changelog
+** [0.19] - 2026-11-18
+*** emacs
+- change ~org-mode~ priorities settings
+*** labwc
+- remove ~autostart~, ~menu.xml~, ~rc.xml~.
 ** [0.18] - 2026-11-09
 *** foot
 - add ~foot.ini~

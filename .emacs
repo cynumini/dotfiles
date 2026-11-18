@@ -178,6 +178,8 @@
  '(meson-indent-basic 4)
  '(org-agenda-files '("~/documents/org/routine.org"))
  '(org-log-repeat nil)
+ '(org-priority-default 69)
+ '(org-priority-lowest 69)
  '(package-selected-packages
    '(d-mode hlsl-mode imenu-list multiple-cursors odin-mode simpc-mode
             yasnippet))
